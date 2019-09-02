@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linear_head"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/profile" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_view_username"
+                    android:textSize="@dimen/title_name" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_shop"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/text_btn_shopname"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/shop"
+                    app:iconSize="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="120dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/colorWhite"
+            android:src="@drawable/camera"
+            app:borderWidth="0dp"
+            app:rippleColor="@color/colorGrey50Transparent" />
+
+        <LinearLayout
+            android:id="@+id/linear_accountinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_head"
+            android:layout_marginVertical="5dp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="@string/text_view_accinfo"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/normal_size"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_username"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_username"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                app:icon="@drawable/ic_edit_black_24dp"
+                app:iconGravity="end"
+                app:iconTint="@color/colorGrey50Transparent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_email"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_email"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                app:icon="@drawable/ic_edit_black_24dp"
+                app:iconGravity="end"
+                app:iconTint="@color/colorGrey50Transparent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_phone"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_phone"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                app:icon="@drawable/ic_edit_black_24dp"
+                app:iconGravity="end"
+                app:iconTint="@color/colorGrey50Transparent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_address"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_address"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                app:icon="@drawable/ic_edit_black_24dp"
+                app:iconGravity="end"
+                app:iconTint="@color/colorGrey50Transparent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_des"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="150dp"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_des"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                app:icon="@drawable/ic_edit_black_24dp"
+                app:iconGravity="end"
+                android:ellipsize="end"
+                android:maxLines="8"
+                app:iconTint="@color/colorGrey50Transparent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_accountinfo"
+            android:layout_marginVertical="5dp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="@string/text_view_Setting"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/normal_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_change_password"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_password"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_sale_on_onlineget"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_sale_on_onlineget"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_policy"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_privacy"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50Transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_about"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_normal"
+                android:paddingHorizontal="20dp"
+                android:text="@string/text_btn_about"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setting"
+            android:layout_marginVertical="5dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_logout"
+                style="@style/TextAppearance.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_btn_logout"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
