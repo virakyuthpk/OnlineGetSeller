@@ -76,4 +76,7 @@
     <string name="hint_password_old">Old password</string>
     <string name="text_btn_des">Description</string>
     <string name="time_item">2019-08-31 10:00:44</string>
+    <string name="text_view_email">Email : example@gmail.com</string>
+    <string name="text_view_order_qty">Order qty : 10</string>
+    <string name="denied">Denied</string>
 </resources>

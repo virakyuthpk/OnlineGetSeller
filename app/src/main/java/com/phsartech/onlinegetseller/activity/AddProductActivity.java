@@ -1,5 +1,6 @@
 package com.phsartech.onlinegetseller.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.nearby.connection.Payload;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,8 +45,12 @@ import com.phsartech.onlinegetseller.util.LocalDataStore;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -138,20 +145,20 @@ public class AddProductActivity extends AppCompatActivity implements
                     });
                     alertDialog.show();
                 } else {
-                    addProduct(
-                            textInputEditText_name.getText().toString(),
-                            Integer.parseInt(textInputEditText_qty.getText().toString()),
-                            Integer.parseInt(textInputEditText_price.getText().toString()),
-                            textInputEditText_video.getText().toString(),
-                            textInputEditText_des.getText().toString(),
-                            mPaths_img,
-                            item_category.getId(),
-                            item_parent_category.getId(),
-                            item_sub_category.getId(),
-                            item_brand.getId(),
-                            item_supplier.getId(),
-                            item_unit.getId()
-                    );
+//                    addProduct(
+//                            textInputEditText_name.getText().toString(),
+//                            Integer.parseInt(textInputEditText_qty.getText().toString()),
+//                            Integer.parseInt(textInputEditText_price.getText().toString()),
+//                            textInputEditText_video.getText().toString(),
+//                            textInputEditText_des.getText().toString(),
+//                            mPaths_img,
+//                            item_category.getId(),
+//                            item_parent_category.getId(),
+//                            item_sub_category.getId(),
+//                            item_brand.getId(),
+//                            item_supplier.getId(),
+//                            item_unit.getId()
+//                    );
                 }
             }
         });
@@ -173,60 +180,60 @@ public class AddProductActivity extends AppCompatActivity implements
         });
     }
 
-    private void addProduct(String name_en,
-                            int qty,
-                            int sell_price,
-                            String video,
-                            String des_en,
-                            ArrayList<String> image,
-                            int category_id,
-                            int parent_category,
-                            int sub_id,
-                            int braind_id,
-                            int supplier_id,
-                            int unit_id) {
-        String[] image_str = new String[image.size()];
-        for (int i = 0; i < image_str.length; i++) {
-            image_str[i] = image.get(i);
-        }
-
-            ApiHelper.getService().addProduct(
-                    LocalDataStore.getToken(AddProductActivity.this),
-                    LocalDataStore.getID(AddProductActivity.this),
-                    name_en, qty, sell_price, video, des_en, image_str,
-                    category_id, parent_category, sub_id,
-                    braind_id, supplier_id, unit_id
-            ).enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                    if (response.body().toString() == "true") {
-                        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "", "Product Added Success!", true);
-                        progressDialog.show();
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                progressDialog.dismiss();
-                            }
-                        }, 2000);
-                    } else {
-                        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "", "Product Added Fail!", true);
-                        progressDialog.show();
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                progressDialog.dismiss();
-                            }
-                        }, 2000);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.e(TAG, "onFailure: " + t.getMessage());
-                }
-            });
-    }
+//    private void addProduct(String name_en,
+//                            int qty,
+//                            int sell_price,
+//                            String video,
+//                            String des_en,
+//                            ArrayList<String> image,
+//                            int category_id,
+//                            int parent_category,
+//                            int sub_id,
+//                            int braind_id,
+//                            int supplier_id,
+//                            int unit_id) {
+//        String[] image_str = new String[image.size()];
+//        for (int i = 0; i < image_str.length; i++) {
+//            image_str[i] = image.get(i);
+//        }
+//
+//            ApiHelper.getService().addProduct(
+//                    LocalDataStore.getToken(AddProductActivity.this),
+//                    LocalDataStore.getID(AddProductActivity.this),
+//                    name_en, qty, sell_price, video, des_en, image_str,
+//                    category_id, parent_category, sub_id,
+//                    braind_id, supplier_id, unit_id
+//            ).enqueue(new Callback<JsonObject>() {
+//                @Override
+//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//
+//                    if (response.body().toString() == "true") {
+//                        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "", "Product Added Success!", true);
+//                        progressDialog.show();
+//                        Handler handler = new Handler();
+//                        handler.postDelayed(new Runnable() {
+//                            public void run() {
+//                                progressDialog.dismiss();
+//                            }
+//                        }, 2000);
+//                    } else {
+//                        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "", "Product Added Fail!", true);
+//                        progressDialog.show();
+//                        Handler handler = new Handler();
+//                        handler.postDelayed(new Runnable() {
+//                            public void run() {
+//                                progressDialog.dismiss();
+//                            }
+//                        }, 2000);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<JsonObject> call, Throwable t) {
+//                    Log.e(TAG, "onFailure: " + t.getMessage());
+//                }
+//            });
+//    }
 
     private void registerComponent() {
         materialButton_supplier = findViewById(R.id.button_supplier);

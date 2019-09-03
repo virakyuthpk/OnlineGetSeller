@@ -36,5 +36,4 @@
         app:itemIconTint="@color/colorWhite"
         app:itemTextColor="@color/colorWhite"
         app:menu="@menu/bottom_menu" />
-
 </RelativeLayout>

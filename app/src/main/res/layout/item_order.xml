@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/card_order"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="10dp"
     android:background="@drawable/background_item"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:layout_marginLeft="@dimen/mtrl_card_spacing"
+    android:layout_marginTop="@dimen/mtrl_card_spacing"
+    android:layout_marginRight="@dimen/mtrl_card_spacing">
 
-
-    <ImageView
-        android:id="@+id/img_thumbnail_order"
-        android:layout_width="@dimen/img_all"
-        android:layout_height="@dimen/img_all"
-        android:src="@drawable/ic_launcher_background" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/img_thumbnail_order"
-        android:orientation="vertical">
+        android:layout_width="match_parent">
 
-        <TextView
-            android:id="@+id/text_title_order"
+        <ImageView
+            android:id="@+id/img_thumbnail_order"
+            android:layout_width="@dimen/img_all"
+            android:layout_height="@dimen/img_all"
+            android:src="@drawable/ic_launcher_background" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_item"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/title_item" />
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/img_thumbnail_order"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_item_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/count_item" />
+            <TextView
+                android:id="@+id/text_title_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_item"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/title_item" />
 
-        <TextView
-            android:id="@+id/text_time_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/time_item" />
-    </LinearLayout>
-</RelativeLayout>
+            <TextView
+                android:id="@+id/text_item_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/count_item" />
+
+            <TextView
+                android:id="@+id/text_time_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/time_item" />
+        </LinearLayout>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

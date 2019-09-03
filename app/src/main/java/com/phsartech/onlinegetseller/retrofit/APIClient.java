@@ -9,12 +9,19 @@ import com.phsartech.onlinegetseller.model.ProductModelSold;
 import com.phsartech.onlinegetseller.model.SupplierModel;
 import com.phsartech.onlinegetseller.model.UnitModel;
 
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface APIClient {
@@ -206,23 +213,24 @@ public interface APIClient {
     Call<UnitModel> getUnit();
 
     //addproduct
-    @FormUrlEncoded
+    @Multipart
     @POST("v4/add-product")
     Call<JsonObject> addProduct(
-            @Header("Authorization") String token,
-            @Field("user_id") int id,
-            @Field("name_en") String name_en,
-            @Field("qty") int qty,
-            @Field("sell_price") int sell_price,
-            @Field("video") String video,
-            @Field("des_en") String des_en,
-            @Field("image") String[] image,
-            @Field("category_id") int category_id,
-            @Field("parent_category") int parent_category,
-            @Field("sub_id") int sub_id,
-            @Field("braind_id") int braind_id,
-            @Field("supplier_id") int supplier_id,
-            @Field("unit_id") int unit_id);
+            @Header("Authorization") RequestBody token,
+            @PartMap() Map<String, RequestBody> partMap,
+            @Path("image") List<MultipartBody.Part> image);
+//            @Path("user_id") RequestBody id,
+//            @Path("name_en") RequestBody name_en,
+//            @Path("qty") RequestBody qty,
+//            @Path("sell_price") RequestBody sell_price,
+//            @Path("video") String video,
+//            @Path("des_en") String des_en,
+//            @Path("category_id") RequestBody category_id,
+//            @Path("parent_category") RequestBody parent_category,
+//            @Path("sub_id") RequestBody sub_id,
+//            @Path("braind_id") RequestBody braind_id,
+//            @Path("supplier_id") RequestBody supplier_id,
+//            @Path("unit_id") RequestBody unit_id,);
 
     //editusername
     @FormUrlEncoded
@@ -295,6 +303,7 @@ public interface APIClient {
             @Field("shop_id") int id,
             @Field("phone") String phone
     );
+
     //editshopaddress
     @FormUrlEncoded
     @POST("v4/shop-edit-address")
@@ -303,6 +312,7 @@ public interface APIClient {
             @Field("shop_id") int id,
             @Field("address") String address
     );
+
     //editshopdetail
     @FormUrlEncoded
     @POST("v4/shop-edit-detail")
@@ -310,5 +320,13 @@ public interface APIClient {
             @Header("Authorization") String token,
             @Field("shop_id") int id,
             @Field("detail") String detail
+    );
+
+    //getitemorder
+    @GET("v4/product-all-item/{shop_id}/{user_id}")
+    Call<OrderModel> getItemOrder(
+            @Header("Authorization") String token,
+            @Path("shop_id") int shop_id,
+            @Path("user_id") int user_id
     );
 }

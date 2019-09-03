@@ -16,7 +16,8 @@
         android:textAlignment="textStart"
         android:textColor="@color/colorGrey"
         app:icon="@drawable/ic_keyboard_arrow_right_black_24dp"
-        app:iconGravity="end" />
+        app:iconGravity="end"
+        android:gravity="start" />
 
     <View
         android:layout_width="match_parent"

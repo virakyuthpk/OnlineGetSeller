@@ -18,7 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.AllOrderAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentAll extends Fragment {
+public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItemClick {
 
     private RecyclerView recycler_all;
     private SwipeRefreshLayout swipeRefreshLayout_all;
@@ -145,7 +147,7 @@ public class OrderFragmentAll extends Fragment {
     }
 
     private void setView() {
-        allOrderAdapter = new AllOrderAdapter(getContext(), listClear);
+        allOrderAdapter = new AllOrderAdapter(getContext(), listClear, this);
         recycler_all.setAdapter(allOrderAdapter);
         recycler_all.setLayoutManager(manager);
         recycler_all.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -156,5 +158,10 @@ public class OrderFragmentAll extends Fragment {
         swipeRefreshLayout_all = view.findViewById(R.id.swipe_refresh);
         spinKitView_all = view.findViewById(R.id.spin_kit);
         textView_all = view.findViewById(R.id.txt_status);
+    }
+
+    @Override
+    public void onItemClick(int shop_id, int user_id) {
+        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id);
     }
 }
