@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.model.ProductModelOnSale;
@@ -23,7 +24,6 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private List<ProductModelOnSale.Data> dataProductList;
     private LayoutInflater inflater;
     private ImageView imageView_thumbnail;
-    private ImageButton imageButton_option;
     private TextView textView_title, textView_count, textView_time;
     private View view;
 
@@ -45,7 +45,14 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ProductModelOnSale.Data item = dataProductList.get(position);
 
+        if (item.getImage() != null) {
+            Glide.with(view.getContext())
+                    .load(item.getImage())
+                    .into(imageView_thumbnail);
+        }
         textView_title.setText(item.getName_en());
+        textView_count.setText(item.getQty() + " total");
+        textView_time.setText(item.getDes_en());
     }
 
     private void registerComponent(View view) {
@@ -53,7 +60,7 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
         textView_title = view.findViewById(R.id.text_title_product);
         textView_count = view.findViewById(R.id.text_item_product);
         textView_time = view.findViewById(R.id.text_time_product);
-        imageButton_option = view.findViewById(R.id.more_option);
+        textView_time.setMaxLines(2);
     }
 
     @Override

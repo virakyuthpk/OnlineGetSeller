@@ -2,12 +2,10 @@ package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,15 +16,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.JsonObject;
+import com.bumptech.glide.Glide;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.ItemAllOrderAdapter;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -38,6 +33,7 @@ import retrofit2.Response;
 public class ItemOrderDialog extends DialogFragment {
 
     private static String TAG = "ItemOrderDialog";
+    private final String control, image, name, email;
     private CircleImageView circleImageView;
     private TextView textView_buyer_name, textView_buyer_email;
     private RecyclerView recyclerView;
@@ -45,13 +41,17 @@ public class ItemOrderDialog extends DialogFragment {
     private List<OrderModel.Data> list;
     private ItemAllOrderAdapter itemAllOrderAdapter;
 
-    public ItemOrderDialog(int shop_id, int buyer_id) {
+    public ItemOrderDialog(int shop_id, int buyer_id, String control, String image, String name, String email) {
         this.shop_id = shop_id;
+        this.control = control;
+        this.image = image;
+        this.name = name;
+        this.email = email;
         this.buyer_id = buyer_id;
     }
 
-    public static ItemOrderDialog display(FragmentManager fragmentManager, int shop_id, int buyer_id) {
-        ItemOrderDialog exampleDialog = new ItemOrderDialog(shop_id, buyer_id);
+    public static ItemOrderDialog display(FragmentManager fragmentManager, int shop_id, int buyer_id, String control, String image, String name, String email) {
+        ItemOrderDialog exampleDialog = new ItemOrderDialog(shop_id, buyer_id, control, image, name, email);
         exampleDialog.show(fragmentManager, TAG);
         return exampleDialog;
     }
@@ -79,24 +79,101 @@ public class ItemOrderDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_order, container, false);
         registerComponent(view);
+        textView_buyer_name.setText(name);
+        textView_buyer_email.setText(email);
+        if (image != null) {
+            Glide.with(this)
+                    .load(image)
+                    .into(circleImageView);
+        }
         getData(LocalDataStore.getToken(getActivity()), shop_id, buyer_id);
         return view;
     }
 
     private void getData(String token, int shop_id, int buyer_id) {
-        ApiHelper.getService().getItemOrder(token, shop_id, buyer_id).enqueue(new Callback<OrderModel>() {
-            @Override
-            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
-                list = response.body().getDataList();
-                setView();
-                itemAllOrderAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onFailure(Call<OrderModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
+        switch (control) {
+            case "all": {
+                ApiHelper.getService().getItemOrderAll(token, shop_id, buyer_id).enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        list = response.body().getDataList();
+                        setView();
+                        itemAllOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+                        Log.e(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
+                break;
             }
-        });
+            case "pending": {
+                ApiHelper.getService().getItemOrderPending(token, shop_id, buyer_id).enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        list = response.body().getDataList();
+                        setView();
+                        itemAllOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+                        Log.e(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
+                break;
+            }
+            case "shipping": {
+                ApiHelper.getService().getItemOrderShipping(token, shop_id, buyer_id).enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        list = response.body().getDataList();
+                        setView();
+                        itemAllOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+                        Log.e(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
+                break;
+            }
+            case "delivery": {
+                ApiHelper.getService().getItemOrderDelivery(token, shop_id, buyer_id).enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        list = response.body().getDataList();
+                        setView();
+                        itemAllOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+                        Log.e(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
+                break;
+            }
+            case "canceled": {
+                ApiHelper.getService().getItemOrderCanceled(token, shop_id, buyer_id).enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        list = response.body().getDataList();
+                        setView();
+                        itemAllOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+                        Log.e(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
+                break;
+            }
+        }
     }
 
     private void setView() {

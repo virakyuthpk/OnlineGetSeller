@@ -23,7 +23,6 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private List<ProductModelSold.Data> dataProductList;
     private LayoutInflater inflater;
     private ImageView imageView_thumbnail;
-    private ImageButton imageButton_option;
     private TextView textView_title, textView_count, textView_time;
     private View view;
 
@@ -60,8 +59,6 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
         textView_title = view.findViewById(R.id.text_title_product);
         textView_count = view.findViewById(R.id.text_item_product);
         textView_time = view.findViewById(R.id.text_time_product);
-        imageButton_option = view.findViewById(R.id.more_option);
-        imageButton_option.setVisibility(View.GONE);
     }
 
     @Override

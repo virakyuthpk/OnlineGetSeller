@@ -1,22 +1,37 @@
 package com.phsartech.onlinegetseller.fragment;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.cast.framework.media.MediaUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.activity.MainActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionEditProfile;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonLogoutClick;
 import com.phsartech.onlinegetseller.dialog.AboutDialog;
 import com.phsartech.onlinegetseller.dialog.ChangePassWordDialog;
@@ -25,24 +40,43 @@ import com.phsartech.onlinegetseller.dialog.PolicyDialog;
 import com.phsartech.onlinegetseller.dialog.SaleOnOnlineGetDialog;
 import com.phsartech.onlinegetseller.dialog.ShopDialog;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
+import com.phsartech.onlinegetseller.util.ChooseImage;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
+import com.squareup.picasso.Picasso;
+
+import net.alhazmy13.mediapicker.Image.ImagePicker;
+import net.alhazmy13.mediapicker.Video.VideoPicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class SettingFragment extends Fragment implements CallBackFucntionAfterEdit {
 
     private View view;
+    private CircleImageView circleImageView_user;
     private MaterialButton materialButton_shop,
             materialButton_username, materialButton_email,
             materialButton_phone, materialButton_address,
-            materialButton_password, materialButton_policy,
-            materialButton_des,
+            materialButton_policy, materialButton_des,
             materialButton_sale_on_onlineget, materialButton_about,
             materialButton_logout, materialButton_change_password;
     private TextView textView_username;
@@ -50,6 +84,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
     private String TAG = "SettingFragment";
     private JSONObject jsonOject_shop;
     private CallBackFucntionOnButtonLogoutClick callBackFucntionOnButtonLogoutClick;
+    private Fragment fragment = this;
 
     public SettingFragment(CallBackFucntionOnButtonLogoutClick callBackFucntionOnButtonLogoutClick) {
         this.callBackFucntionOnButtonLogoutClick = callBackFucntionOnButtonLogoutClick;
@@ -139,6 +174,30 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
                 editInfo("des");
             }
         });
+        floatingActionButton_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            2000);
+                } else {
+                    startGallery();
+                }
+            }
+        });
+    }
+
+    private void startGallery() {
+        Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+//        Intent cameraIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        cameraIntent.setType("image/*");
+        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(cameraIntent, 1000);
+        }
+
     }
 
     private void editInfo(String value) {
@@ -193,6 +252,9 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
             materialButton_phone.setText(jsonObject.getString("phone") + "");
             materialButton_address.setText(jsonObject.getString("address") + "");
             textView_username.setText(jsonObject.getString("username") + "");
+            Glide.with(this)
+                    .load(jsonObject.getString("image_path"))
+                    .into(circleImageView_user);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -208,6 +270,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
     }
 
     private void registerComponent(View view) {
+        circleImageView_user = view.findViewById(R.id.image_profile_user);
         materialButton_change_password = view.findViewById(R.id.button_change_password);
         textView_username = view.findViewById(R.id.text_username);
         materialButton_shop = view.findViewById(R.id.button_shop);
@@ -216,12 +279,67 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         materialButton_email = view.findViewById(R.id.button_email);
         materialButton_phone = view.findViewById(R.id.button_phone);
         materialButton_address = view.findViewById(R.id.button_address);
-        materialButton_password = view.findViewById(R.id.button_change_password);
         materialButton_policy = view.findViewById(R.id.button_policy);
         materialButton_sale_on_onlineget = view.findViewById(R.id.button_sale_on_onlineget);
         materialButton_about = view.findViewById(R.id.button_about);
         materialButton_des = view.findViewById(R.id.button_des);
         materialButton_logout = view.findViewById(R.id.button_logout);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1000) {
+                Uri returnUri = data.getData();
+                editProfile(returnUri);
+            }
+        }
+    }
+
+    private void editProfile(Uri returnUri) {
+
+        String filePath = getRealPathFromURIPath(returnUri, getActivity());
+        File file = new File(filePath);
+        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
+
+        int id = LocalDataStore.getID(getActivity());
+        String token = LocalDataStore.getToken(getActivity());
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), id + "");
+
+        ApiHelper.getService().editProfile(token, fileToUpload, requestBody).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.e(TAG, "onResponse: ");
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    Log.e(TAG, "onResponse: " + jsonObject.getString("image"));
+                    Glide.with(fragment)
+                            .load(jsonObject.getString("image"))
+                            .into(circleImageView_user);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
+        Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
+        }
     }
 
     @Override

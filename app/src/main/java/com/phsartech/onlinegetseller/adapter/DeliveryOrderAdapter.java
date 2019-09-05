@@ -11,23 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
 import com.phsartech.onlinegetseller.model.OrderModel;
 
 import java.util.List;
 
-public class DeliveredOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class DeliveryOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     private List<OrderModel.Data> dataProductList;
     private LayoutInflater inflater;
+    private MaterialCardView materialCardView;
     private ImageView imageView_thumbnail;
     private TextView textView_title, textView_count, textView_time;
     private View view;
+    private CallBackFunctionOnItemClick callBackFunctionOnItemClick;
 
-    public DeliveredOrderAdapter(Context context, List<OrderModel.Data> listClear) {
+    public DeliveryOrderAdapter(Context context, List<OrderModel.Data> listClear, CallBackFunctionOnItemClick callBackFunctionOnItemClick) {
         inflater = LayoutInflater.from(context);
         this.dataProductList = listClear;
+        this.callBackFunctionOnItemClick = callBackFunctionOnItemClick;
     }
 
     @NonNull
@@ -44,11 +49,12 @@ public class DeliveredOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
         textView_title = view.findViewById(R.id.text_title_order);
         textView_count = view.findViewById(R.id.text_item_order);
         textView_time = view.findViewById(R.id.text_time_order);
+        materialCardView = view.findViewById(R.id.card_order);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        OrderModel.Data item = dataProductList.get(position);
+        final OrderModel.Data item = dataProductList.get(position);
 
         textView_title.setText(item.getUser_name() + "");
         if (item.getCount() > 1) {
@@ -62,6 +68,12 @@ public class DeliveredOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
                     .into(imageView_thumbnail);
         }
         textView_time.setText(item.getCreated_at() + "");
+        materialCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBackFunctionOnItemClick.onItemClick(item.getShop_id(), item.getUser_id(), item.getUser_image(), item.getUser_name(), item.getEmail());
+            }
+        });
     }
 
     @Override

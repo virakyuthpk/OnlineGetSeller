@@ -18,7 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.CanceledOrderAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentCanceled extends Fragment {
+public class OrderFragmentCanceled extends Fragment implements CallBackFunctionOnItemClick {
 
     private RecyclerView recycler_canceled;
     private SwipeRefreshLayout swipeRefreshLayout_canceled;
@@ -144,7 +146,7 @@ public class OrderFragmentCanceled extends Fragment {
     }
 
     private void setView() {
-        canceledOrderAdapter = new CanceledOrderAdapter(getContext(), listClear);
+        canceledOrderAdapter = new CanceledOrderAdapter(getContext(), listClear, this);
         recycler_canceled.setAdapter(canceledOrderAdapter);
         recycler_canceled.setLayoutManager(manager);
         recycler_canceled.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -155,5 +157,10 @@ public class OrderFragmentCanceled extends Fragment {
         swipeRefreshLayout_canceled = view.findViewById(R.id.swipe_refresh);
         spinKitView_canceled = view.findViewById(R.id.spin_kit);
         textView_canceled = view.findViewById(R.id.txt_status);
+    }
+
+    @Override
+    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

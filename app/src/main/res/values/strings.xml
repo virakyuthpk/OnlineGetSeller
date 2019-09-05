@@ -38,11 +38,11 @@
     <string name="text_btn_sale_on_onlineget">Sale on onlineget</string>
     <string name="text_btn_about">About Us</string>
     <string name="text_btn_privacy">Policy</string>
-    <string name="text_view_username">Justin Bieber</string>
-    <string name="text_view_shopname">Justin Bieber Online Shop</string>
-    <string name="text_btn_shopname">Justin Bieber Online Shop</string>
+    <string name="text_view_username">Username</string>
+    <string name="text_view_shopname">User Shopname</string>
+    <string name="text_btn_shopname">User Shopname</string>
     <string name="text_view_accinfo">Account Info</string>
-    <string name="text_btn_username">Justin Bieber</string>
+    <string name="text_btn_username">Username</string>
     <string name="text_btn_email">justin.bieber@gmail.com</string>
     <string name="text_btn_phone">+855 96 35 48 405</string>
     <string name="text_btn_address">Wat Vongkut Borey, St 2002, Phnom Penh</string>
@@ -67,7 +67,7 @@
     <string name="text_btn_login">Login</string>
     <string name="text_btn_password">Change password</string>
     <string name="text_view_shopinfo">Shop info</string>
-    <string name="text_btn_shopemail">j.shop@google.com</string>
+    <string name="text_btn_shopemail">example.shop@google.com</string>
     <string name="text_btn_shopphone">+855 12 35 48 65</string>
     <string name="text_category">Category name</string>
     <string name="select_category">Category</string>

@@ -40,7 +40,7 @@ public class ItemAllOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        OrderModel.Data item = dataProductList.get(position);
     }
 
     @Override

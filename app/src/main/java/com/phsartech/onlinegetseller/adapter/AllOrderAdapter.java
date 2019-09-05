@@ -1,11 +1,13 @@
 package com.phsartech.onlinegetseller.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,13 +21,15 @@ import com.phsartech.onlinegetseller.model.OrderModel;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AllOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     private List<OrderModel.Data> dataProductList;
     private MaterialCardView materialCardView;
     private LayoutInflater inflater;
     private View view;
-    private ImageView imageView_thumbnail;
+    private CircleImageView imageView_thumbnail;
     private TextView textView_title, textView_count, textView_time;
     private CallBackFunctionOnItemClick callBackFunctionOnItemClick;
 
@@ -67,12 +71,11 @@ public class AllOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
                     .load(item.getUser_image())
                     .into(imageView_thumbnail);
         }
-        textView_time.setText(item.getCreated_at() + "");
 
         materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callBackFunctionOnItemClick.onItemClick(item.getShop_id(), item.getUser_id());
+                callBackFunctionOnItemClick.onItemClick(item.getShop_id(), item.getUser_id(), item.getUser_image(), item.getUser_name(), item.getEmail());
             }
         });
     }

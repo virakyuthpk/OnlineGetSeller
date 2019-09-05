@@ -61,4 +61,8 @@ dependencies {
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
     //searchbar
     implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
 }

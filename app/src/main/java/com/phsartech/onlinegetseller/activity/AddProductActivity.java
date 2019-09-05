@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -45,8 +48,12 @@ import com.phsartech.onlinegetseller.util.LocalDataStore;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -145,20 +152,20 @@ public class AddProductActivity extends AppCompatActivity implements
                     });
                     alertDialog.show();
                 } else {
-//                    addProduct(
-//                            textInputEditText_name.getText().toString(),
-//                            Integer.parseInt(textInputEditText_qty.getText().toString()),
-//                            Integer.parseInt(textInputEditText_price.getText().toString()),
-//                            textInputEditText_video.getText().toString(),
-//                            textInputEditText_des.getText().toString(),
-//                            mPaths_img,
-//                            item_category.getId(),
-//                            item_parent_category.getId(),
-//                            item_sub_category.getId(),
-//                            item_brand.getId(),
-//                            item_supplier.getId(),
-//                            item_unit.getId()
-//                    );
+                    addProduct(
+                            textInputEditText_name.getText().toString(),
+                            Integer.parseInt(textInputEditText_qty.getText().toString()),
+                            Integer.parseInt(textInputEditText_price.getText().toString()),
+                            textInputEditText_video.getText().toString(),
+                            textInputEditText_des.getText().toString(),
+                            mPaths_img,
+                            item_category.getId(),
+                            item_parent_category.getId(),
+                            item_sub_category.getId(),
+                            item_brand.getId(),
+                            item_supplier.getId(),
+                            item_unit.getId()
+                    );
                 }
             }
         });
@@ -180,60 +187,96 @@ public class AddProductActivity extends AppCompatActivity implements
         });
     }
 
-//    private void addProduct(String name_en,
-//                            int qty,
-//                            int sell_price,
-//                            String video,
-//                            String des_en,
-//                            ArrayList<String> image,
-//                            int category_id,
-//                            int parent_category,
-//                            int sub_id,
-//                            int braind_id,
-//                            int supplier_id,
-//                            int unit_id) {
-//        String[] image_str = new String[image.size()];
-//        for (int i = 0; i < image_str.length; i++) {
-//            image_str[i] = image.get(i);
-//        }
-//
-//            ApiHelper.getService().addProduct(
-//                    LocalDataStore.getToken(AddProductActivity.this),
-//                    LocalDataStore.getID(AddProductActivity.this),
-//                    name_en, qty, sell_price, video, des_en, image_str,
-//                    category_id, parent_category, sub_id,
-//                    braind_id, supplier_id, unit_id
-//            ).enqueue(new Callback<JsonObject>() {
-//                @Override
-//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//
-//                    if (response.body().toString() == "true") {
-//                        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "", "Product Added Success!", true);
-//                        progressDialog.show();
-//                        Handler handler = new Handler();
-//                        handler.postDelayed(new Runnable() {
-//                            public void run() {
-//                                progressDialog.dismiss();
-//                            }
-//                        }, 2000);
-//                    } else {
-//                        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "", "Product Added Fail!", true);
-//                        progressDialog.show();
-//                        Handler handler = new Handler();
-//                        handler.postDelayed(new Runnable() {
-//                            public void run() {
-//                                progressDialog.dismiss();
-//                            }
-//                        }, 2000);
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<JsonObject> call, Throwable t) {
-//                    Log.e(TAG, "onFailure: " + t.getMessage());
-//                }
-//            });
-//    }
+    private void addProduct(String name_en,
+                            int qty,
+                            int sell_price,
+                            String video,
+                            String des_en,
+                            ArrayList<String> image,
+                            int category_id,
+                            int parent_category,
+                            int sub_id,
+                            int braind_id,
+                            int supplier_id,
+                            int unit_id) {
+
+
+        RequestBody requestBody_userId = RequestBody.create(MediaType.parse("text/plain"), LocalDataStore.getID(AddProductActivity.this) + "");
+        RequestBody requestBody_name = RequestBody.create(MediaType.parse("text/plain"), name_en + "");
+        RequestBody requestBody_qty = RequestBody.create(MediaType.parse("text/plain"), qty + "");
+        RequestBody requestBody_sell_price = RequestBody.create(MediaType.parse("text/plain"), sell_price + "");
+        RequestBody requestBody_video = RequestBody.create(MediaType.parse("text/plain"), video + "");
+        RequestBody requestBody_desEn = RequestBody.create(MediaType.parse("text/plain"), des_en + "");
+        RequestBody requestBody_categoryId = RequestBody.create(MediaType.parse("text/plain"), category_id + "");
+        RequestBody requestBody_parentCategory = RequestBody.create(MediaType.parse("text/plain"), parent_category + "");
+        RequestBody requestBody_subId = RequestBody.create(MediaType.parse("text/plain"), sub_id + "");
+        RequestBody requestBody_brandId = RequestBody.create(MediaType.parse("text/plain"), braind_id + "");
+        RequestBody requestBody_supplierId = RequestBody.create(MediaType.parse("text/plain"), supplier_id + "");
+        RequestBody requestBody_unitId = RequestBody.create(MediaType.parse("text/plain"), unit_id + "");
+
+        MultipartBody.Part[] parts = new MultipartBody.Part[image.size()];
+
+        for (int i = 0; i < image.size(); i++) {
+
+            String filePath = getRealPathFromURIPath(Uri.parse(image.get(i)), AddProductActivity.this);
+            File file = new File(filePath);
+            RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image[]", file.getName(), mFile);
+
+            parts[i] = fileToUpload;
+        }
+
+        ApiHelper.getService().addProduct(
+                LocalDataStore.getToken(AddProductActivity.this),
+                requestBody_userId, requestBody_name, requestBody_qty, requestBody_sell_price,
+                requestBody_video, requestBody_desEn, requestBody_categoryId, requestBody_parentCategory,
+                requestBody_subId, requestBody_brandId, requestBody_supplierId, requestBody_unitId, parts
+        ).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    Log.e(TAG, "onResponse: " + jsonObject.getString("success"));
+                    AlertDialog alertDialog = new AlertDialog.Builder(AddProductActivity.this).create();
+                    alertDialog.setTitle("Product Added!");
+                    alertDialog.setMessage("Want to add more product!");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            startActivity(new Intent(AddProductActivity.this, AddProductActivity.class));
+                        }
+                    });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            startActivity(new Intent(AddProductActivity.this, MainActivity.class));
+                        }
+                    });
+                    alertDialog.show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
+        Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
+        }
+    }
 
     private void registerComponent() {
         materialButton_supplier = findViewById(R.id.button_supplier);

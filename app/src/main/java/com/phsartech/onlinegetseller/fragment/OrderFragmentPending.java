@@ -18,7 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.PendingOrderAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentPending extends Fragment {
+public class OrderFragmentPending extends Fragment implements CallBackFunctionOnItemClick {
 
     private RecyclerView recycler_pending;
     private SwipeRefreshLayout swipeRefreshLayout_pending;
@@ -144,7 +146,7 @@ public class OrderFragmentPending extends Fragment {
     }
 
     private void setView() {
-        pendingOrderAdapter = new PendingOrderAdapter(getContext(), listClear);
+        pendingOrderAdapter = new PendingOrderAdapter(getContext(), listClear, this);
         recycler_pending.setAdapter(pendingOrderAdapter);
         recycler_pending.setLayoutManager(manager);
         recycler_pending.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -155,5 +157,10 @@ public class OrderFragmentPending extends Fragment {
         swipeRefreshLayout_pending = view.findViewById(R.id.swipe_refresh);
         spinKitView_pending = view.findViewById(R.id.spin_kit);
         textView_pending = view.findViewById(R.id.txt_status);
+    }
+
+    @Override
+    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

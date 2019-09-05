@@ -16,11 +16,12 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_profile_user"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/profile" />
+                android:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"

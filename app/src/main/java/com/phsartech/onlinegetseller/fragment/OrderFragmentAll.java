@@ -161,7 +161,7 @@ public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItem
     }
 
     @Override
-    public void onItemClick(int shop_id, int user_id) {
-        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id);
+    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

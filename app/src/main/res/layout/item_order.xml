@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_thumbnail_order"
             android:layout_width="@dimen/img_all"
             android:layout_height="@dimen/img_all"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.phsartech.onlinegetseller.R;
 
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                 .load(img_modelArrayList.get(position))
                 .into(myViewHolder.imageView);
 
-        myViewHolder.btn_remove.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 img_modelArrayList.remove(position);
@@ -62,13 +64,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView, btn_remove;
+        ImageView imageView;
+        MaterialButton imageButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.image_product);
-            btn_remove = itemView.findViewById(R.id.button_close);
+            imageButton = itemView.findViewById(R.id.button_close);
         }
     }
 }

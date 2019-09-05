@@ -1,6 +1,7 @@
 package com.phsartech.onlinegetseller.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,12 +10,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionEditProfile;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonLogoutClick;
 import com.phsartech.onlinegetseller.fragment.OrderFragment;
 import com.phsartech.onlinegetseller.fragment.ProductFragment;
@@ -22,7 +25,12 @@ import com.phsartech.onlinegetseller.fragment.ReportFragment;
 import com.phsartech.onlinegetseller.fragment.SettingFragment;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
 
-public class MainActivity extends AppCompatActivity implements CallBackFucntionOnButtonLogoutClick {
+import net.alhazmy13.mediapicker.Image.ImagePicker;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements
+        CallBackFucntionOnButtonLogoutClick {
 
     private final String TAG = "MainActivity";
     private ViewPager viewPager_home;
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements CallBackFucntionO
                     startActivity(intent);
                     return true;
                 case R.id.navigation_report:
-                    materialToolbar.setVisibility(View.GONE);
+                    materialToolbar.setVisibility(View.VISIBLE);
                     viewPager_home.setCurrentItem(2);
                     bottomNavigationView_home.setVisibility(View.VISIBLE);
                     return true;

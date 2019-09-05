@@ -17,8 +17,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.adapter.DeliveredOrderAdapter;
+import com.phsartech.onlinegetseller.adapter.DeliveryOrderAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentDelivered extends Fragment {
+public class OrderFragmentDelivery extends Fragment implements CallBackFunctionOnItemClick {
 
     private RecyclerView recycler_delivered;
     private SwipeRefreshLayout swipeRefreshLayout_delivered;
@@ -47,7 +49,7 @@ public class OrderFragmentDelivered extends Fragment {
     };
     private List<OrderModel.Data> list = new ArrayList<>();
     private List<OrderModel.Data> listClear = new ArrayList<>();
-    private DeliveredOrderAdapter deliveredOrderAdapter;
+    private DeliveryOrderAdapter deliveredOrderAdapter;
 
 
     private boolean isSwapRefresh;
@@ -57,7 +59,7 @@ public class OrderFragmentDelivered extends Fragment {
 
         Bundle args = new Bundle();
         args.putInt("argument_position", position);
-        OrderFragmentDelivered fragment = new OrderFragmentDelivered();
+        OrderFragmentDelivery fragment = new OrderFragmentDelivery();
         fragment.setArguments(args);
         return fragment;
     }
@@ -144,7 +146,7 @@ public class OrderFragmentDelivered extends Fragment {
     }
 
     private void setView() {
-        deliveredOrderAdapter = new DeliveredOrderAdapter(getContext(), listClear);
+        deliveredOrderAdapter = new DeliveryOrderAdapter(getContext(), listClear, this);
         recycler_delivered.setAdapter(deliveredOrderAdapter);
         recycler_delivered.setLayoutManager(manager);
         recycler_delivered.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -155,5 +157,10 @@ public class OrderFragmentDelivered extends Fragment {
         swipeRefreshLayout_delivered = view.findViewById(R.id.swipe_refresh);
         spinKitView_delivered = view.findViewById(R.id.spin_kit);
         textView_delivered = view.findViewById(R.id.txt_status);
+    }
+
+    @Override
+    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

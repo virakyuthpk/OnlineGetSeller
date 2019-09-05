@@ -14,6 +14,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -21,6 +22,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
@@ -216,21 +218,20 @@ public interface APIClient {
     @Multipart
     @POST("v4/add-product")
     Call<JsonObject> addProduct(
-            @Header("Authorization") RequestBody token,
-            @PartMap() Map<String, RequestBody> partMap,
-            @Path("image") List<MultipartBody.Part> image);
-//            @Path("user_id") RequestBody id,
-//            @Path("name_en") RequestBody name_en,
-//            @Path("qty") RequestBody qty,
-//            @Path("sell_price") RequestBody sell_price,
-//            @Path("video") String video,
-//            @Path("des_en") String des_en,
-//            @Path("category_id") RequestBody category_id,
-//            @Path("parent_category") RequestBody parent_category,
-//            @Path("sub_id") RequestBody sub_id,
-//            @Path("braind_id") RequestBody braind_id,
-//            @Path("supplier_id") RequestBody supplier_id,
-//            @Path("unit_id") RequestBody unit_id,);
+            @Header("Authorization") String token,
+            @Part("user_id") RequestBody id,
+            @Part("name_en") RequestBody name_en,
+            @Part("qty") RequestBody qty,
+            @Part("sell_price") RequestBody sell_price,
+            @Part("video") RequestBody video,
+            @Part("des_en") RequestBody des_en,
+            @Part("category_id") RequestBody category_id,
+            @Part("parent_category") RequestBody parent_category,
+            @Part("sub_id") RequestBody sub_id,
+            @Part("braind_id") RequestBody braind_id,
+            @Part("supplier_id") RequestBody supplier_id,
+            @Part("unit_id") RequestBody unit_id,
+            @Part MultipartBody.Part[] image);
 
     //editusername
     @FormUrlEncoded
@@ -324,9 +325,50 @@ public interface APIClient {
 
     //getitemorder
     @GET("v4/product-all-item/{shop_id}/{user_id}")
-    Call<OrderModel> getItemOrder(
+    Call<OrderModel> getItemOrderAll(
             @Header("Authorization") String token,
             @Path("shop_id") int shop_id,
             @Path("user_id") int user_id
     );
+
+    //getitemorder-pending
+    @GET("v4/product-pending-item/{shop_id}/{user_id}")
+    Call<OrderModel> getItemOrderPending(
+            @Header("Authorization") String token,
+            @Path("shop_id") int shop_id,
+            @Path("user_id") int user_id
+    );
+
+    //getitemorder-shipping
+    @GET("v4/product-shipping-item/{shop_id}/{user_id}")
+    Call<OrderModel> getItemOrderShipping(
+            @Header("Authorization") String token,
+            @Path("shop_id") int shop_id,
+            @Path("user_id") int user_id
+    );
+
+    //getitemorder-delivery
+    @GET("v4/product-delivery-item/{shop_id}/{user_id}")
+    Call<OrderModel> getItemOrderDelivery(
+            @Header("Authorization") String token,
+            @Path("shop_id") int shop_id,
+            @Path("user_id") int user_id
+    );
+
+    //getitemorder-canceled
+    @GET("v4/product-canceled-item/{shop_id}/{user_id}")
+    Call<OrderModel> getItemOrderCanceled(
+            @Header("Authorization") String token,
+            @Path("shop_id") int shop_id,
+            @Path("user_id") int user_id
+    );
+
+    @Multipart
+    @POST("v4/profile-edit-profile")
+    Call<JsonObject> editProfile(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part image,
+            @Part("user_id") RequestBody user_id
+    );
+
 }

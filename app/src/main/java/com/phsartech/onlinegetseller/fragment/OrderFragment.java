@@ -79,7 +79,7 @@ public class OrderFragment extends Fragment {
                 case 2:
                     return OrderFragmentShipping.newInstance(position);
                 case 3:
-                    return OrderFragmentDelivered.newInstance(position);
+                    return OrderFragmentDelivery.newInstance(position);
                 case 4:
                     return OrderFragmentCanceled.newInstance(position);
             }
