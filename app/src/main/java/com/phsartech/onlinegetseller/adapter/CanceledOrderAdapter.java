@@ -14,8 +14,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
-import com.phsartech.onlinegetseller.fragment.OrderFragmentCanceled;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClickCanceled;
 import com.phsartech.onlinegetseller.model.OrderModel;
 
 import java.util.List;
@@ -27,13 +26,13 @@ public class CanceledOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private ImageView imageView_thumbnail;
     private TextView textView_title, textView_count, textView_time;
     private View view;
-    private CallBackFunctionOnItemClick callBackFunctionOnItemClick;
+    private CallBackFunctionOnItemClickCanceled callBackFunctionOnItemClickCanceled;
     private MaterialCardView materialCardView;
 
-    public CanceledOrderAdapter(Context context, List<OrderModel.Data> listClear, CallBackFunctionOnItemClick callBackFunctionOnItemClick) {
+    public CanceledOrderAdapter(Context context, List<OrderModel.Data> listClear, CallBackFunctionOnItemClickCanceled callBackFunctionOnItemClickCanceled) {
         inflater = LayoutInflater.from(context);
         this.dataProductList = listClear;
-        this.callBackFunctionOnItemClick = callBackFunctionOnItemClick;
+        this.callBackFunctionOnItemClickCanceled = callBackFunctionOnItemClickCanceled;
     }
 
     @NonNull
@@ -73,7 +72,7 @@ public class CanceledOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
         materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callBackFunctionOnItemClick.onItemClick(item.getShop_id(), item.getUser_id(), item.getUser_image(), item.getUser_name(), item.getEmail());
+                callBackFunctionOnItemClickCanceled.onItemClickCanceled(item.getShop_id(), item.getUser_id(), item.getUser_image(), item.getUser_name(), item.getEmail());
             }
         });
     }

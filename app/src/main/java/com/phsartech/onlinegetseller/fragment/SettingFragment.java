@@ -3,70 +3,56 @@ package com.phsartech.onlinegetseller.fragment;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.cast.framework.media.MediaUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.activity.MainActivity;
+import com.phsartech.onlinegetseller.activity.ShopActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
-import com.phsartech.onlinegetseller.callback.CallBackFucntionEditProfile;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonLogoutClick;
 import com.phsartech.onlinegetseller.dialog.AboutDialog;
 import com.phsartech.onlinegetseller.dialog.ChangePassWordDialog;
 import com.phsartech.onlinegetseller.dialog.EditDialog;
 import com.phsartech.onlinegetseller.dialog.PolicyDialog;
 import com.phsartech.onlinegetseller.dialog.SaleOnOnlineGetDialog;
-import com.phsartech.onlinegetseller.dialog.ShopDialog;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
-import com.phsartech.onlinegetseller.util.ChooseImage;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
-import com.squareup.picasso.Picasso;
-
-import net.alhazmy13.mediapicker.Image.ImagePicker;
-import net.alhazmy13.mediapicker.Video.VideoPicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class SettingFragment extends Fragment implements CallBackFucntionAfterEdit {
@@ -82,9 +68,13 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
     private TextView textView_username;
     private FloatingActionButton floatingActionButton_camera;
     private String TAG = "SettingFragment";
-    private JSONObject jsonOject_shop;
+    private static JSONObject jsonOject_shop;
     private CallBackFucntionOnButtonLogoutClick callBackFucntionOnButtonLogoutClick;
     private Fragment fragment = this;
+
+    public static JSONObject getJsonOject_shop() {
+        return jsonOject_shop;
+    }
 
     public SettingFragment(CallBackFucntionOnButtonLogoutClick callBackFucntionOnButtonLogoutClick) {
         this.callBackFucntionOnButtonLogoutClick = callBackFucntionOnButtonLogoutClick;
@@ -101,7 +91,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         registerComponent(view);
         getDataUser(LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-        getDataShop(LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+        getDataShop(LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
         return view;
     }
 
@@ -135,7 +125,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         materialButton_shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShopDialog.display(getFragmentManager(), jsonOject_shop);
+                startActivity(new Intent(getActivity(), ShopActivity.class));
             }
         });
         materialButton_logout.setOnClickListener(new View.OnClickListener() {
@@ -147,31 +137,31 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         materialButton_username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editInfo("username");
+                editInfo("Username");
             }
         });
         materialButton_email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editInfo("email");
+                editInfo("Email");
             }
         });
         materialButton_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editInfo("phone");
+                editInfo("Phone");
             }
         });
         materialButton_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editInfo("address");
+                editInfo("Address");
             }
         });
         materialButton_des.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editInfo("des");
+                editInfo("Description");
             }
         });
         floatingActionButton_camera.setOnClickListener(new View.OnClickListener() {
@@ -315,7 +305,15 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
                 Log.e(TAG, "onResponse: ");
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
-                    Log.e(TAG, "onResponse: " + jsonObject.getString("image"));
+                    final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setMessage("Change Successful!");
+                    alertDialog.show();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            alertDialog.dismiss();
+                        }
+                    }, 1000);
                     Glide.with(fragment)
                             .load(jsonObject.getString("image"))
                             .into(circleImageView_user);
@@ -344,16 +342,16 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
 
     @Override
     public void afterEdit(String control, String value) {
-        if (control == "username") {
+        if (control == "Username") {
             textView_username.setText(value);
             materialButton_username.setText(value);
-        } else if (control == "email") {
+        } else if (control == "Email") {
             materialButton_email.setText(value);
-        } else if (control == "phone") {
+        } else if (control == "Phone") {
             materialButton_phone.setText(value);
-        } else if (control == "address") {
+        } else if (control == "Address") {
             materialButton_address.setText(value);
-        } else if (control == "des") {
+        } else if (control == "Description") {
             materialButton_des.setText(value);
         }
     }

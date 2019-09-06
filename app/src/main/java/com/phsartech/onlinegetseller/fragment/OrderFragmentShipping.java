@@ -18,9 +18,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.ShippingOrderAdapter;
-import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClickShipping;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
-import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialogAll;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialogPending;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialogShipping;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -32,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentShipping extends Fragment implements CallBackFunctionOnItemClick {
+public class OrderFragmentShipping extends Fragment implements CallBackFunctionOnItemClickShipping {
 
     private RecyclerView recycler_shipping;
     private SwipeRefreshLayout swipeRefreshLayout_shipping;
@@ -160,7 +162,7 @@ public class OrderFragmentShipping extends Fragment implements CallBackFunctionO
     }
 
     @Override
-    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
-        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
+    public void onItemClickShipping(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialogShipping.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

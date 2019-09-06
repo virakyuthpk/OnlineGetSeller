@@ -3,6 +3,7 @@ package com.phsartech.onlinegetseller.dialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -39,6 +41,7 @@ public class ChangePassWordDialog extends DialogFragment {
     private TextInputLayout textInputLayout_password_new, textInputLayout_password_confirm, textInputLayout_password_old;
     private TextInputEditText textInputEditText_password_new, textInputEditText_password_confirm, textInputEditText_password_old;
     private MaterialButton materialButton_save;
+    private Toolbar toolbar;
 
     public static ChangePassWordDialog display(FragmentManager fragmentManager) {
         ChangePassWordDialog exampleDialog = new ChangePassWordDialog();
@@ -127,11 +130,24 @@ public class ChangePassWordDialog extends DialogFragment {
         });
     }
 
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Change Password");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_changepassword, container, false);
         registerComponent(view);
+        setupToolbar();
         return view;
     }
 
@@ -143,5 +159,6 @@ public class ChangePassWordDialog extends DialogFragment {
         textInputLayout_password_old = view.findViewById(R.id.layout_password_old);
         textInputLayout_password_new = view.findViewById(R.id.layout_password_change);
         textInputLayout_password_confirm = view.findViewById(R.id.layout_password_confirm);
+        toolbar = view.findViewById(R.id.toolbar);
     }
 }

@@ -9,7 +9,7 @@
     tools:context=".activity.SplashScreenActivity">
 
     <ImageView
-        android:layout_width="200dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/phsartechlogo" />
+        android:src="@drawable/logo_toolbar" />
 </LinearLayout>

@@ -6,13 +6,17 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <TextView
         android:id="@+id/text_detail"
-        android:gravity="center"
-        android:textAlignment="textStart"
-        android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="30dp"
+        android:textAlignment="textStart"
         tools:ignore="RtlCompat" />
 
 </LinearLayout>

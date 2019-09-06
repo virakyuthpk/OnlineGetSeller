@@ -12,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionOnItemOnSaleClick;
+import com.phsartech.onlinegetseller.fragment.ProductFragmentonsale;
 import com.phsartech.onlinegetseller.model.ProductModelOnSale;
 import com.phsartech.onlinegetseller.model.ProductModelSold;
 
@@ -26,10 +29,13 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private ImageView imageView_thumbnail;
     private TextView textView_title, textView_count, textView_time;
     private View view;
+    private MaterialCardView materialCardView;
+    private CallBackFucntionOnItemOnSaleClick callBackFucntionOnItemOnSaleClick;
 
-    public OnsaleProductAdapter(Context context, List<ProductModelOnSale.Data> listClear) {
+    public OnsaleProductAdapter(Context context, List<ProductModelOnSale.Data> listClear, CallBackFucntionOnItemOnSaleClick callBackFucntionOnItemOnSaleClick) {
         inflater = LayoutInflater.from(context);
         this.dataProductList = listClear;
+        this. callBackFucntionOnItemOnSaleClick = callBackFucntionOnItemOnSaleClick;
     }
 
     @NonNull
@@ -43,7 +49,7 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ProductModelOnSale.Data item = dataProductList.get(position);
+        final ProductModelOnSale.Data item = dataProductList.get(position);
 
         if (item.getImage() != null) {
             Glide.with(view.getContext())
@@ -53,6 +59,13 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
         textView_title.setText(item.getName_en());
         textView_count.setText(item.getQty() + " total");
         textView_time.setText(item.getDes_en());
+
+        materialCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBackFucntionOnItemOnSaleClick.OnClickItem(item);
+            }
+        });
     }
 
     private void registerComponent(View view) {
@@ -60,6 +73,7 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
         textView_title = view.findViewById(R.id.text_title_product);
         textView_count = view.findViewById(R.id.text_item_product);
         textView_time = view.findViewById(R.id.text_time_product);
+        materialCardView = view.findViewById(R.id.card_product);
         textView_time.setMaxLines(2);
     }
 

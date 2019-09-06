@@ -52,7 +52,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
             public void onClick(View v) {
                 img_modelArrayList.remove(position);
                 notifyItemRemoved(position);
-                notifyItemChanged(position, img_modelArrayList.size());
+//                notifyItemChanged(position, img_modelArrayList.size());
+                notifyDataSetChanged();
             }
         });
     }

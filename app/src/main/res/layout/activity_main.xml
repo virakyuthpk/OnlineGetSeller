@@ -11,12 +11,17 @@
         android:id="@+id/toolbar"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         app:popupTheme="@layout/cast_intro_overlay">
-        <ImageView
-            android:src="@drawable/phsartechlogo"
-            android:layout_width="100dp"
-            android:layout_height="40dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:src="@drawable/logo_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+        </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
     <com.phsartech.onlinegetseller.view.CustomViewPager

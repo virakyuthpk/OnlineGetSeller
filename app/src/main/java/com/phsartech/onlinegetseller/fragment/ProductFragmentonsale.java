@@ -18,7 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.OnsaleProductAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionOnItemOnSaleClick;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
+import com.phsartech.onlinegetseller.dialog.ProductDialog;
 import com.phsartech.onlinegetseller.model.ProductModelOnSale;
 import com.phsartech.onlinegetseller.model.ProductModelSold;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
@@ -31,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductFragmentonsale extends Fragment {
+public class ProductFragmentonsale extends Fragment implements CallBackFucntionOnItemOnSaleClick {
 
     private static String TAG = "ProductFragmentonsale";
     private RecyclerView recycler_onsale;
@@ -142,7 +144,7 @@ public class ProductFragmentonsale extends Fragment {
     }
 
     private void setView() {
-        onsaleProductAdapter = new OnsaleProductAdapter(getContext(), listClear);
+        onsaleProductAdapter = new OnsaleProductAdapter(getContext(), listClear, this);
         recycler_onsale.setAdapter(onsaleProductAdapter);
         recycler_onsale.setLayoutManager(manager);
         recycler_onsale.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -153,5 +155,10 @@ public class ProductFragmentonsale extends Fragment {
         swipeRefreshLayout_onsale = view.findViewById(R.id.swipe_refresh);
         spinKitView_onsale = view.findViewById(R.id.spin_kit);
         textView_onsale = view.findViewById(R.id.txt_status);
+    }
+
+    @Override
+    public void OnClickItem(ProductModelOnSale.Data item) {
+        ProductDialog.display(getFragmentManager(), item);
     }
 }

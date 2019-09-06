@@ -18,9 +18,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.CanceledOrderAdapter;
-import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClickCanceled;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
-import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialogAll;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialogCanceled;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -32,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentCanceled extends Fragment implements CallBackFunctionOnItemClick {
+public class OrderFragmentCanceled extends Fragment implements CallBackFunctionOnItemClickCanceled {
 
     private RecyclerView recycler_canceled;
     private SwipeRefreshLayout swipeRefreshLayout_canceled;
@@ -160,7 +161,7 @@ public class OrderFragmentCanceled extends Fragment implements CallBackFunctionO
     }
 
     @Override
-    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
-        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
+    public void onItemClickCanceled(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialogCanceled.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

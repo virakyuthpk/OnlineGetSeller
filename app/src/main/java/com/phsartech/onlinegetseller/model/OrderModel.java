@@ -109,6 +109,22 @@ public class OrderModel {
         @SerializedName("count")
         private int count;
 
+        @Expose
+        @SerializedName("name")
+        private String Pname;
+
+        public String getPname() {
+            return Pname;
+        }
+
+        public String getPimage() {
+            return Pimage;
+        }
+
+        @Expose
+        @SerializedName("image")
+        private String Pimage;
+
         public int getId() {
             return id;
         }

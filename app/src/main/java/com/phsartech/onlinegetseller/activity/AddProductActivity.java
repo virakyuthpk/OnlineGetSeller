@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -94,6 +96,7 @@ public class AddProductActivity extends AppCompatActivity implements
     private UnitModel.DataEntity item_unit;
     private SupplierModel.DataEntity item_supplier;
     private BrandModel.DataEntity item_brand;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,7 @@ public class AddProductActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_add_product);
 
         registerComponent();
+        setupToolbar();
 
         materialButton_category.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,6 +302,22 @@ public class AddProductActivity extends AppCompatActivity implements
         textInputEditText_des = findViewById(R.id.text_p_des);
         textInputEditText_price = findViewById(R.id.text_p_price);
         textInputEditText_qty = findViewById(R.id.text_p_qty);
+
+        toolbar = findViewById(R.id.toolbar);
+    }
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Add Product");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        startActivity(new Intent(AddProductActivity.this, MainActivity.class));
+                        finish();
+                    }
+                });
+            }
+        }
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -35,14 +39,22 @@ import retrofit2.Response;
 
 public class EditDialog extends DialogFragment {
 
-    private static String TAG = "AboutDialog";
+    private static String TAG = "EditDialog";
     private final CallBackFucntionAfterEdit callBackFucntionAfterEdit;
+    private int productId;
     private TextInputLayout textInputLayout_edit;
     private TextInputEditText textInputEditText_edit;
     private MaterialButton materialButton_done;
     private String control;
+    private Toolbar toolbar;
 
     public EditDialog(String control, CallBackFucntionAfterEdit callBackFucntionAfterEdit) {
+        this.control = control;
+        this.callBackFucntionAfterEdit = callBackFucntionAfterEdit;
+    }
+
+    public EditDialog(String control, CallBackFucntionAfterEdit callBackFucntionAfterEdit, int productId) {
+        this.productId = productId;
         this.control = control;
         this.callBackFucntionAfterEdit = callBackFucntionAfterEdit;
     }
@@ -50,6 +62,12 @@ public class EditDialog extends DialogFragment {
 
     public static EditDialog display(FragmentManager fragmentManager, String control, CallBackFucntionAfterEdit callBackFucntionAfterEdit) {
         EditDialog exampleDialog = new EditDialog(control, callBackFucntionAfterEdit);
+        exampleDialog.show(fragmentManager, TAG);
+        return exampleDialog;
+    }
+
+    public static EditDialog display(FragmentManager fragmentManager, String control, CallBackFucntionAfterEdit callBackFucntionAfterEdit, int productId) {
+        EditDialog exampleDialog = new EditDialog(control, callBackFucntionAfterEdit, productId);
         exampleDialog.show(fragmentManager, TAG);
         return exampleDialog;
     }
@@ -77,30 +95,55 @@ public class EditDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
         registerComponent(view);
-        if (control == "username") {
+        setupToolbar();
+        if (control == "Username") {
             textInputLayout_edit.setHint("New Username");
-        } else if (control == "email") {
+        } else if (control == "Email") {
             textInputLayout_edit.setHint("New Email");
-        } else if (control == "phone") {
+        } else if (control == "Phone") {
             textInputLayout_edit.setHint("New Phone");
-        } else if (control == "address") {
+        } else if (control == "Address") {
             textInputLayout_edit.setHint("New Address");
-        } else if (control == "des") {
+        } else if (control == "Description") {
             textInputLayout_edit.setHint("New Description");
             textInputLayout_edit.setCounterEnabled(true);
-        } else if (control == "shop_name") {
+        } else if (control == "Shop name") {
             textInputLayout_edit.setHint("New Shop name");
-        } else if (control == "shop_email") {
+        } else if (control == "Shop email") {
             textInputLayout_edit.setHint("New Shop email");
-        } else if (control == "shop_phone") {
+        } else if (control == "Shop phone") {
             textInputLayout_edit.setHint("New Shop phone");
-        } else if (control == "shop_address") {
+        } else if (control == "Shop address") {
             textInputLayout_edit.setHint("New Shop address");
-        } else if (control == "shop_detail") {
+        } else if (control == "Shop detail") {
             textInputLayout_edit.setHint("New Shop detail");
+            textInputLayout_edit.setCounterEnabled(true);
+        } else if (control == "Product name") {
+            textInputLayout_edit.setHint("New Product name");
+        } else if (control == "Product qty") {
+            textInputLayout_edit.setHint("New Product Qty");
+        } else if (control == "Product price") {
+            textInputLayout_edit.setHint("New Product sell price");
+        } else if (control == "Product video") {
+            textInputLayout_edit.setHint("New Product Video Url");
+        } else if (control == "Product description") {
+            textInputLayout_edit.setHint("New Product description");
             textInputLayout_edit.setCounterEnabled(true);
         }
         return view;
+    }
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Edit " + control);
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -109,27 +152,192 @@ public class EditDialog extends DialogFragment {
         materialButton_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (control == "username") {
+                if (control == "Username") {
                     editUsername(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "email") {
+                } else if (control == "Email") {
                     editEmail(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "phone") {
+                } else if (control == "Phone") {
                     editPhone(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "address") {
+                } else if (control == "Address") {
                     editAddress(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "des") {
+                } else if (control == "Description") {
                     editDes(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "shop_name") {
+                } else if (control == "Shop name") {
                     editShopName(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "shop_email") {
+                } else if (control == "Shop email") {
                     editShopEmail(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "shop_phone") {
+                } else if (control == "Shop phone") {
                     editShopPhone(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "shop_address") {
+                } else if (control == "Shop address") {
                     editShopAddress(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
-                } else if (control == "shop_detail") {
+                } else if (control == "Shop detail") {
                     editShopDetail(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                } else if (control == "Product name") {
+                    editProductName(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                } else if (control == "Product qty") {
+                    editProductQty(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                } else if (control == "Product price") {
+                    editProductPrice(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                } else if (control == "Product video") {
+                    editProductVideo(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                } else if (control == "Product description") {
+                    editProductDescription(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
                 }
+            }
+        });
+    }
+
+    private void editProductPrice(final String price, int productId, String token) {
+        ApiHelper.getService().editProductSellPrice(token, productId, Integer.parseInt(price)).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setMessage("Change Successful!");
+                        alertDialog.show();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                callBackFucntionAfterEdit.afterEdit(control, price);
+                                alertDialog.dismiss();
+                                dismiss();
+                            }
+                        }, 1000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void editProductName(final String name, int productId, String token) {
+        ApiHelper.getService().editProductName(token, productId, name).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setMessage("Change Successful!");
+                        alertDialog.show();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                callBackFucntionAfterEdit.afterEdit(control, name);
+                                alertDialog.dismiss();
+                                dismiss();
+                            }
+                        }, 1000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void editProductQty(final String qty, int productId, String token) {
+        ApiHelper.getService().editProductQty(token, productId, Integer.parseInt(qty)).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setMessage("Change Successful!");
+                        alertDialog.show();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                callBackFucntionAfterEdit.afterEdit(control, qty);
+                                alertDialog.dismiss();
+                                dismiss();
+                            }
+                        }, 1000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void editProductVideo(final String video, int productId, String token) {
+        ApiHelper.getService().editProductVideo(token, productId, video).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setMessage("Change Successful!");
+                        alertDialog.show();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                callBackFucntionAfterEdit.afterEdit(control, video);
+                                alertDialog.dismiss();
+                                dismiss();
+                            }
+                        }, 1000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void editProductDescription(final String des, int productId, String token) {
+        ApiHelper.getService().editProductDes(token, productId, des).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setMessage("Change Successful!");
+                        alertDialog.show();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                callBackFucntionAfterEdit.afterEdit(control, des);
+                                alertDialog.dismiss();
+                                dismiss();
+                            }
+                        }, 1000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
@@ -151,7 +359,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -182,7 +390,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -213,7 +421,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -244,7 +452,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -275,7 +483,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -306,7 +514,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -337,7 +545,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -368,7 +576,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -399,7 +607,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -430,7 +638,7 @@ public class EditDialog extends DialogFragment {
                                 alertDialog.dismiss();
                                 dismiss();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -448,6 +656,7 @@ public class EditDialog extends DialogFragment {
         textInputLayout_edit = view.findViewById(R.id.layout_edit);
         textInputEditText_edit = view.findViewById(R.id.text_edit);
         materialButton_done = view.findViewById(R.id.button_done);
+        toolbar = view.findViewById(R.id.toolbar);
     }
 }
 

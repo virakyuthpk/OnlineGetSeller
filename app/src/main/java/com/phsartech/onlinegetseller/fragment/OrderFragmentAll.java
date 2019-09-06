@@ -18,9 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.AllOrderAdapter;
-import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClickAll;
 import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
-import com.phsartech.onlinegetseller.dialog.ItemOrderDialog;
+import com.phsartech.onlinegetseller.dialog.ItemOrderDialogAll;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItemClick {
+public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItemClickAll {
 
     private RecyclerView recycler_all;
     private SwipeRefreshLayout swipeRefreshLayout_all;
@@ -161,7 +161,7 @@ public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItem
     }
 
     @Override
-    public void onItemClick(int shop_id, int user_id, String image, String name, String email) {
-        ItemOrderDialog.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
+    public void onItemClickAll(int shop_id, int user_id, String image, String name, String email) {
+        ItemOrderDialogAll.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
     }
 }

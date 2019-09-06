@@ -5,6 +5,10 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -15,8 +19,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_profile_buyer"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_margin="10dp"
             android:src="@drawable/ic_launcher_background" />
 

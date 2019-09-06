@@ -1,13 +1,10 @@
 package com.phsartech.onlinegetseller.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClick;
+import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClickAll;
 import com.phsartech.onlinegetseller.model.OrderModel;
 
 import java.util.List;
@@ -31,12 +28,12 @@ public class AllOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private View view;
     private CircleImageView imageView_thumbnail;
     private TextView textView_title, textView_count, textView_time;
-    private CallBackFunctionOnItemClick callBackFunctionOnItemClick;
+    private CallBackFunctionOnItemClickAll callBackFunctionOnItemClickAll;
 
-    public AllOrderAdapter(Context context, List<OrderModel.Data> listClear, CallBackFunctionOnItemClick callBackFunctionOnItemClick) {
+    public AllOrderAdapter(Context context, List<OrderModel.Data> listClear, CallBackFunctionOnItemClickAll callBackFunctionOnItemClickAll) {
         this.inflater = LayoutInflater.from(context);
         this.dataProductList = listClear;
-        this.callBackFunctionOnItemClick = callBackFunctionOnItemClick;
+        this.callBackFunctionOnItemClickAll = callBackFunctionOnItemClickAll;
     }
 
     @NonNull
@@ -75,7 +72,7 @@ public class AllOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
         materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callBackFunctionOnItemClick.onItemClick(item.getShop_id(), item.getUser_id(), item.getUser_image(), item.getUser_name(), item.getEmail());
+                callBackFunctionOnItemClickAll.onItemClickAll(item.getShop_id(), item.getUser_id(), item.getUser_image(), item.getUser_name(), item.getEmail());
             }
         });
     }

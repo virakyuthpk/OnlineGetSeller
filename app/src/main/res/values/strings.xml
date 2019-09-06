@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OnlineGetSeller</string>
+    <string name="app_name">OnlineGet\nSeller</string>
     <string name="title_order">Order</string>
     <string name="title_product">Product</string>
     <string name="title_report">Report</string>
@@ -79,4 +79,16 @@
     <string name="text_view_email">Email : example@gmail.com</string>
     <string name="text_view_order_qty">Order qty : 10</string>
     <string name="denied">Denied</string>
+    <string name="title_back">Back</string>
+    <string name="text_btn_product_name">Product name</string>
+    <string name="text_btn_product_qty">Product qty</string>
+    <string name="text_btn_product_price">Product price</string>
+    <string name="text_btn_product_category">Product category</string>
+    <string name="text_btn_product_brand">Product brand</string>
+    <string name="text_btn_product_supplier">Product supplier</string>
+    <string name="text_btn_product_unit">Product unit</string>
+    <string name="text_btn_product_video">Product video</string>
+    <string name="text_btn_product_des">Product description</string>
+    <string name="text_btn_delete">Delete</string>
+    <string name="text_btn_forgetpassword">forget password!</string>
 </resources>

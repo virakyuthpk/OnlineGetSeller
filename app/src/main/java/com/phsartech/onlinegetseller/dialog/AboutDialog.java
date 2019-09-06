@@ -1,6 +1,7 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -30,6 +32,7 @@ public class AboutDialog extends DialogFragment {
 
     private static String TAG = "AboutDialog";
     private TextView textView_detail;
+    private Toolbar toolbar;
 
     public static AboutDialog display(FragmentManager fragmentManager) {
         AboutDialog exampleDialog = new AboutDialog();
@@ -55,11 +58,31 @@ public class AboutDialog extends DialogFragment {
         }
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupToolbar();
+    }
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("About");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         textView_detail = view.findViewById(R.id.text_detail);
+        toolbar = view.findViewById(R.id.toolbar);
         getData(LocalDataStore.getToken(getActivity()));
         return view;
     }

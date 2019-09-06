@@ -1,156 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:background="@color/colorBackground">
 
         <RelativeLayout
-            android:id="@+id/relative_head"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="match_parent">
 
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/relative_head"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background" />
+                android:layout_height="200dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_shop"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="25dp"
-                android:src="@drawable/ic_launcher_background"
-                app:civ_border_color="@color/colorWhite"
-                app:civ_border_width="2dp" />
+                <ImageView
+                    android:id="@+id/cover_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_launcher_background" />
 
-            <TextView
-                android:id="@+id/text_shopname"
-                android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_logo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignRight="@id/img_shop"
+                    android:layout_alignBottom="@id/img_shop"
+                    android:backgroundTint="@color/colorGrey75Transparent"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="100dp"
+                    app:icon="@drawable/camera"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="15dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_cover"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/colorGrey75Transparent"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:icon="@drawable/camera"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="15dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_shop"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="25dp"
+                    android:src="@drawable/ic_launcher_background"
+                    app:civ_border_color="@color/colorWhite"
+                    app:civ_border_width="2dp" />
+
+                <TextView
+                    android:id="@+id/text_shopname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_toRightOf="@id/img_shop"
+                    android:text="@string/text_view_shopname"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_shopinfo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="25dp"
-                android:layout_toRightOf="@id/img_shop"
-                android:text="@string/text_view_shopname"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/title_name"
-                android:textStyle="bold" />
+                android:layout_below="@id/relative_head"
+                android:layout_marginVertical="5dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/text_view_shopinfo"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/normal_size"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_shopname"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_normal"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/text_btn_shopname"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorGrey"
+                    app:icon="@drawable/ic_edit_black_24dp"
+                    app:iconGravity="end"
+                    app:iconTint="@color/colorGrey50Transparent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey50Transparent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_shopemail"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_normal"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/text_btn_shopemail"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorGrey"
+                    app:icon="@drawable/ic_edit_black_24dp"
+                    app:iconGravity="end"
+                    app:iconTint="@color/colorGrey50Transparent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey50Transparent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_shopphone"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_normal"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/text_btn_shopphone"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorGrey"
+                    app:icon="@drawable/ic_edit_black_24dp"
+                    app:iconGravity="end"
+                    app:iconTint="@color/colorGrey50Transparent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey50Transparent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_shopaddress"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_normal"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/text_btn_address"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorGrey"
+                    app:icon="@drawable/ic_edit_black_24dp"
+                    app:iconGravity="end"
+                    app:iconTint="@color/colorGrey50Transparent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey50Transparent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_shopdes"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxHeight="150dp"
+                    android:maxLines="8"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/text_btn_des"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorGrey" />
+
+            </LinearLayout>
         </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_shopinfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/relative_head"
-            android:layout_marginVertical="5dp"
-            android:background="@color/colorWhite"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:text="@string/text_view_shopinfo"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/normal_size"
-                android:textStyle="bold" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_shopname"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_normal"
-                android:paddingHorizontal="20dp"
-                android:text="@string/text_btn_shopname"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textColor="@color/colorGrey"
-                app:icon="@drawable/ic_edit_black_24dp"
-                app:iconGravity="end"
-                app:iconTint="@color/colorGrey50Transparent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey50Transparent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_shopemail"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_normal"
-                android:paddingHorizontal="20dp"
-                android:text="@string/text_btn_shopemail"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textColor="@color/colorGrey"
-                app:icon="@drawable/ic_edit_black_24dp"
-                app:iconGravity="end"
-                app:iconTint="@color/colorGrey50Transparent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey50Transparent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_shopphone"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_normal"
-                android:paddingHorizontal="20dp"
-                android:text="@string/text_btn_shopphone"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textColor="@color/colorGrey"
-                app:icon="@drawable/ic_edit_black_24dp"
-                app:iconGravity="end"
-                app:iconTint="@color/colorGrey50Transparent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey50Transparent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_shopaddress"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_normal"
-                android:paddingHorizontal="20dp"
-                android:text="@string/text_btn_address"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textColor="@color/colorGrey"
-                app:icon="@drawable/ic_edit_black_24dp"
-                app:iconGravity="end"
-                app:iconTint="@color/colorGrey50Transparent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey50Transparent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_shopdes"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxHeight="150dp"
-                android:paddingHorizontal="20dp"
-                android:ellipsize="end"
-                android:text="@string/text_btn_des"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textColor="@color/colorGrey" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</ScrollView>
+    </ScrollView>
+</RelativeLayout>

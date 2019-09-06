@@ -3,6 +3,7 @@ package com.phsartech.onlinegetseller.retrofit;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.model.BrandModel;
 import com.phsartech.onlinegetseller.model.CategoryModel;
+import com.phsartech.onlinegetseller.model.GalleryModel;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.model.ProductModelOnSale;
 import com.phsartech.onlinegetseller.model.ProductModelSold;
@@ -171,8 +172,9 @@ public interface APIClient {
     Call<ProductModelOnSale> getProductOnSaleNext(
             @Path("id") int id,
             @Path("item") int item
-    );    //getproductonsale
+    );
 
+    //getproductonsale
     @GET("v4/product-sold/{shop_id}")
     Call<ProductModelSold> getProductSold(
             @Path("shop_id") int shop_id,
@@ -201,6 +203,33 @@ public interface APIClient {
             @Path("parent_id") int parent_id,
             @Path("sub_id") int sub_id
     );
+
+    //showcategory
+    @GET("v4/category-show/{category_id}/{parent_id}/{sub_id}")
+    Call<JsonObject> showCategory(
+            @Header("Authorization") String token,
+            @Path("category_id") int category_id,
+            @Path("parent_id") int parent_id,
+            @Path("sub_id") int sub_id
+    );
+
+    //showbrand
+    @GET("v4/brand-show/{brand_id}")
+    Call<JsonObject> showBrand(
+            @Header("Authorization") String token,
+            @Path("brand_id") int brand_id);
+
+    //showsupplier
+    @GET("v4/supplier-show/{supplier_id}")
+    Call<JsonObject> showSupplier(
+            @Header("Authorization") String token,
+            @Path("supplier_id") int supplier_id);
+
+    //showunit
+    @GET("v4/unit-show/{unit_id}")
+    Call<JsonObject> showUnit(
+            @Header("Authorization") String token,
+            @Path("unit_id") int unit_id);
 
     //getbrand
     @GET("v4/brand")
@@ -233,7 +262,7 @@ public interface APIClient {
             @Part("unit_id") RequestBody unit_id,
             @Part MultipartBody.Part[] image);
 
-    //editusername
+    //editprofile
     @FormUrlEncoded
     @POST("v4/profile-edit-username")
     Call<JsonObject> editUsername(
@@ -371,4 +400,118 @@ public interface APIClient {
             @Part("user_id") RequestBody user_id
     );
 
+    @Multipart
+    @POST("v4/shop-edit-logo")
+    Call<JsonObject> editLogo(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part image,
+            @Part("shop_id") RequestBody shop_id
+    );
+
+
+    @Multipart
+    @POST("v4/shop-edit-cover")
+    Call<JsonObject> editCover(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part image,
+            @Part("shop_id") RequestBody shop_id
+    );
+
+    //getgallery
+    @GET("v4/gallery/{product_id}")
+    Call<GalleryModel> getGallery(
+            @Header("Authorization") String token,
+            @Path("product_id") int product_id
+    );
+
+    //deleteproduct
+    @FormUrlEncoded
+    @POST("v4/delete-product")
+    Call<JsonObject> deleteProduct(
+            @Header("Authorization") String token,
+            @Field("id") int id
+    );
+
+    //editcategory
+    @FormUrlEncoded
+    @POST("v4/product-edit-category")
+    Call<JsonObject> editProductCategory(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("category_id") int category_id,
+            @Field("parent_id") int parent_id,
+            @Field("sub_id") int sub_id
+    );
+
+    //editname
+    @FormUrlEncoded
+    @POST("v4/product-edit-name")
+    Call<JsonObject> editProductName(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("name") String name
+    );
+
+    //editqty
+    @FormUrlEncoded
+    @POST("v4/product-edit-qty")
+    Call<JsonObject> editProductQty(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("qty") int qty
+    );
+
+    //editsaleprice
+    @FormUrlEncoded
+    @POST("v4/product-edit-sellprice")
+    Call<JsonObject> editProductSellPrice(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("price") int price
+    );
+
+    //editbrand
+    @FormUrlEncoded
+    @POST("v4/product-edit-brand")
+    Call<JsonObject> editProductBrand(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("brand_id") int brand_id
+    );
+
+    //editsupplier
+    @FormUrlEncoded
+    @POST("v4/product-edit-supplier")
+    Call<JsonObject> editProductSupplier(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("supplier_id") int supplier_id
+    );
+
+    //editunit
+    @FormUrlEncoded
+    @POST("v4/product-edit-unit")
+    Call<JsonObject> editProductUnit(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("unit_id") int unit_id
+    );
+
+    //editvideo
+    @FormUrlEncoded
+    @POST("v4/product-edit-video")
+    Call<JsonObject> editProductVideo(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("video") String video
+    );
+
+    //editdes
+    @FormUrlEncoded
+    @POST("v4/product-edit-des")
+    Call<JsonObject> editProductDes(
+            @Header("Authorization") String token,
+            @Field("id") int id,
+            @Field("des") String des
+    );
 }

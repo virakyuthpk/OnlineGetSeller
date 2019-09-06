@@ -4,9 +4,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:layout_marginLeft="@dimen/mtrl_card_spacing"
+    android:id="@+id/card_product"
     android:layout_marginTop="@dimen/mtrl_card_spacing"
     android:layout_marginRight="@dimen/mtrl_card_spacing"
-    android:background="@drawable/background_item">
+    android:background="@drawable/background_item"
+    android:maxHeight="120dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
