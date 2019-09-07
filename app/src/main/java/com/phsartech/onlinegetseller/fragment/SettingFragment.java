@@ -182,7 +182,6 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
     private void startGallery() {
         Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-//        Intent cameraIntent = new Intent(Intent.ACTION_GET_CONTENT);
         cameraIntent.setType("image/*");
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(cameraIntent, 1000);
@@ -200,8 +199,14 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 try {
                     JSONObject object = new JSONObject(response.body().toString());
-                    JSONObject jsonObject = new JSONObject(String.valueOf(object.getJSONObject("data")));
-                    setViewShop(jsonObject);
+                    if (object.getString("success") != "false") {
+                        Log.e(TAG, "onResponseif: " + object.getString("success"));
+                        JSONObject jsonObject = new JSONObject(String.valueOf(object.getJSONObject("data")));
+                        jsonOject_shop = jsonObject;
+                        setViewShop(jsonObject);
+                    } else {
+                        Log.e(TAG, "onResponseelse: " + object.getString("success"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -252,7 +257,6 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
 
     private void setViewShop(JSONObject jsonObject) {
         try {
-            this.jsonOject_shop = jsonObject;
             materialButton_shop.setText(jsonObject.getString("shop_name"));
         } catch (JSONException e) {
             e.printStackTrace();

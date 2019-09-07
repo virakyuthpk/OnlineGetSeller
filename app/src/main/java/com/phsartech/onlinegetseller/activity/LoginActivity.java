@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().toString());
-                        LocalDataStore.setToken(LoginActivity.this, "Bearer" + jsonObject.getString("token"));
+                        LocalDataStore.setToken(LoginActivity.this, "Bearer " + jsonObject.getString("token"));
                         LocalDataStore.setID(LoginActivity.this, jsonObject.getInt("user_id"));
                         LocalDataStore.setLogin(LoginActivity.this, true);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
