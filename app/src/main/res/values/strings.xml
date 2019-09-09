@@ -91,4 +91,5 @@
     <string name="text_btn_product_des">Product description</string>
     <string name="text_btn_delete">Delete</string>
     <string name="text_btn_forgetpassword">forget password!</string>
+    <string name="text_btn_verify">Verify</string>
 </resources>

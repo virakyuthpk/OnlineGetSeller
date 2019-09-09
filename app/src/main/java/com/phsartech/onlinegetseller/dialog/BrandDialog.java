@@ -1,6 +1,7 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -35,6 +37,7 @@ public class BrandDialog extends DialogFragment implements CallBackFunctionOnBut
     private List<BrandModel.DataEntity> list;
     private BrandAdapter brandAdapter;
     private static String TAG = "BrandDialog";
+    private Toolbar toolbar;
 
     public BrandDialog(CallBackFunctionOnButtonBrandClick callBackFunctionOnButtonBrandClick) {
         this.callBackFunctionOnButtonBrandClick = callBackFunctionOnButtonBrandClick;
@@ -69,6 +72,8 @@ public class BrandDialog extends DialogFragment implements CallBackFunctionOnBut
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_recycler, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
+        toolbar = view.findViewById(R.id.toolbar);
+        setupToolbar();
         getData();
         return view;
     }
@@ -88,6 +93,19 @@ public class BrandDialog extends DialogFragment implements CallBackFunctionOnBut
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Brand");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
     }
 
     private void setView() {

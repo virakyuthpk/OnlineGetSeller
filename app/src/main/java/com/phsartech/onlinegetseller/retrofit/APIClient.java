@@ -514,4 +514,19 @@ public interface APIClient {
             @Field("id") int id,
             @Field("des") String des
     );
+
+    //finduser
+    @FormUrlEncoded
+    @POST("v4/find-user")
+    Call<JsonObject> findUser (
+            @Field("email") String email
+    );
+
+    //setnewpassword
+    @FormUrlEncoded
+    @POST("v4/setnew-password")
+    Call<JsonObject> setNewPassword (
+            @Field("user_id") int user_id,
+            @Field("password") String password
+    );
 }

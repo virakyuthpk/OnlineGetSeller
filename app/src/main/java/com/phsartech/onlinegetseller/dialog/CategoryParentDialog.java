@@ -1,6 +1,7 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -37,6 +39,7 @@ public class CategoryParentDialog extends DialogFragment implements CallBackFunc
     private CategoryParentAdapter categoryParentAdapter;
     private CategoryModel.DataEntity item;
     private CallBackFucntionOnButtonCategoryParentClick callBackFucntionOnButtonCategoryParentClick;
+    private Toolbar toolbar;
 
     public CategoryParentDialog(CategoryModel.DataEntity item, CallBackFucntionOnButtonCategoryParentClick callBackFucntionOnButtonCategoryParentClick) {
         this.item = item;
@@ -44,7 +47,7 @@ public class CategoryParentDialog extends DialogFragment implements CallBackFunc
     }
 
     public static CategoryParentDialog display(CallBackFucntionOnButtonCategoryParentClick callBackFucntionOnButtonCategoryParentClick, FragmentManager fragmentManager, CategoryModel.DataEntity item) {
-        CategoryParentDialog exampleDialog = new CategoryParentDialog(item,callBackFucntionOnButtonCategoryParentClick);
+        CategoryParentDialog exampleDialog = new CategoryParentDialog(item, callBackFucntionOnButtonCategoryParentClick);
         exampleDialog.show(fragmentManager, TAG);
         return exampleDialog;
     }
@@ -72,6 +75,8 @@ public class CategoryParentDialog extends DialogFragment implements CallBackFunc
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_recycler, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
+        toolbar = view.findViewById(R.id.toolbar);
+        setupToolbar();
         getData(item.getId());
         return view;
     }
@@ -91,6 +96,19 @@ public class CategoryParentDialog extends DialogFragment implements CallBackFunc
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Category Parent");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
     }
 
     private void setView() {

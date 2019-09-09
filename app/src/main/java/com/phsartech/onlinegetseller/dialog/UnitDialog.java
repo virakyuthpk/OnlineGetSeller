@@ -1,6 +1,7 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -35,6 +37,7 @@ public class UnitDialog extends DialogFragment implements CallBackFunctionOnButt
     private List<UnitModel.DataEntity> list;
     private UnitAdapter unitAdapter;
     private static String TAG = "UnitDialog";
+    private Toolbar toolbar;
 
     public UnitDialog(CallBackFunctionOnButtonUnitClick callBackFunctionOnButtonUnitClick) {
         this.callBackFunctionOnButtonUnitClick = callBackFunctionOnButtonUnitClick;
@@ -64,11 +67,26 @@ public class UnitDialog extends DialogFragment implements CallBackFunctionOnButt
         }
     }
 
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Unit");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_recycler, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
+        toolbar = view.findViewById(R.id.toolbar);
+        setupToolbar();
         getData();
         return view;
     }

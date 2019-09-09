@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -28,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.dialog.EditDialog;
+import com.phsartech.onlinegetseller.dialog.VerifyEmailDialog;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
 
@@ -44,7 +46,8 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText inputEditText_email, inputEditText_password;
-    private MaterialButton materialButton_login;
+    private MaterialButton materialButton_login, materialButton_forgetpassword;
+    private TextView textView_or;
     private LoginButton loginButton_facebook;
     private TextInputLayout textInputLayout_email, textInputLayout_password;
     private CallbackManager callBackManager;
@@ -64,6 +67,11 @@ public class LoginActivity extends AppCompatActivity {
         inputEditText_password = findViewById(R.id.edit_text_password);
         materialButton_login = findViewById(R.id.button_login);
         loginButton_facebook = findViewById(R.id.login_button);
+        loginButton_facebook.setVisibility(View.GONE);
+        textView_or = findViewById(R.id.text_or);
+        textView_or.setVisibility(View.GONE);
+        materialButton_forgetpassword = findViewById(R.id.material_text_button_forget_password);
+        inputEditText_email.setSingleLine(true);
     }
 
     private void login_facebook(String id, String first_name, String
@@ -199,6 +207,12 @@ public class LoginActivity extends AppCompatActivity {
                     textInputLayout_email.setError(null); //Clear the error
                 }
                 return false;
+            }
+        });
+        materialButton_forgetpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VerifyEmailDialog.display(getSupportFragmentManager());
             }
         });
     }

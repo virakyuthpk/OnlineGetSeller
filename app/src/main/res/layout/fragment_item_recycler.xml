@@ -4,7 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/toolbar"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

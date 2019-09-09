@@ -48,7 +48,7 @@ public class ReportFragment extends Fragment {
     private void registerComponent(View view) {
         textView_pending = view.findViewById(R.id.text_pending);
         textView_shipping = view.findViewById(R.id.text_shipping);
-        textView_delivery = view.findViewById(R.id.text_delivered);
+        textView_delivery = view.findViewById(R.id.text_delivery);
         textView_canceled = view.findViewById(R.id.text_canceled);
         textView_instock = view.findViewById(R.id.text_instock);
         textView_low = view.findViewById(R.id.text_low);

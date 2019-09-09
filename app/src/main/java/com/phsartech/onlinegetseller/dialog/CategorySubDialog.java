@@ -1,6 +1,7 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -37,6 +39,7 @@ public class CategorySubDialog extends DialogFragment implements CallBackFunctio
     private CategorySubAdapter categorySubAdapter;
     private CategoryModel.DataEntity item, item_parent;
     private CallBackFucntionOnButtonCategorySubClick callBackFucntionOnButtonCategorySubClick;
+    private Toolbar toolbar;
 
     public CategorySubDialog(CallBackFucntionOnButtonCategorySubClick callBackFucntionOnButtonCategorySubClick, CategoryModel.DataEntity item, CategoryModel.DataEntity item_parent) {
         this.callBackFucntionOnButtonCategorySubClick = callBackFucntionOnButtonCategorySubClick;
@@ -73,6 +76,8 @@ public class CategorySubDialog extends DialogFragment implements CallBackFunctio
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_recycler, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
+        toolbar = view.findViewById(R.id.toolbar);
+        setupToolbar();
         getData(item.getId(), item_parent.getId());
         return view;
     }
@@ -99,6 +104,19 @@ public class CategorySubDialog extends DialogFragment implements CallBackFunctio
         recyclerView.setAdapter(categorySubAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+    }
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.setTitle("Category Sub");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+            }
+        }
     }
 
     @Override
