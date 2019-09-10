@@ -99,7 +99,7 @@
             android:id="@+id/text_or"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="or" />
 
         <com.facebook.login.widget.LoginButton
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
     </LinearLayout>
 </LinearLayout>

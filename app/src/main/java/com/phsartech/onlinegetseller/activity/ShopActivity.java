@@ -2,6 +2,7 @@ package com.phsartech.onlinegetseller.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -171,7 +172,7 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
         }
     }
 
-    private void editLogo(Uri returnUri) {
+    private void editLogo(final Uri returnUri) {
 
         String filePath = getRealPathFromURIPath(returnUri, ShopActivity.this);
         File file = new File(filePath);
@@ -182,11 +183,12 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
         String token = LocalDataStore.getToken(ShopActivity.this);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), id + "");
-
+        final ProgressDialog progressDialog = ProgressDialog.show(ShopActivity.this, "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editLogo(token, fileToUpload, requestBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.e(TAG, "onResponse: ");
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     final AlertDialog alertDialog = new AlertDialog.Builder(ShopActivity.this).create();
@@ -199,7 +201,8 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
                         }
                     }, 1000);
                     Glide.with(ShopActivity.this)
-                            .load(jsonObject.getString("image"))
+                            .load(returnUri)
+                            .placeholder(R.drawable.ic_launcher_background)
                             .into(circleImageView_logo);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -224,7 +227,7 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
         }
     }
 
-    private void editCover(Uri returnUri) {
+    private void editCover(final Uri returnUri) {
 
         String filePath = getRealPathFromURIPath(returnUri, ShopActivity.this);
         File file = new File(filePath);
@@ -235,11 +238,12 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
         String token = LocalDataStore.getToken(ShopActivity.this);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), id + "");
-
+        final ProgressDialog progressDialog = ProgressDialog.show(ShopActivity.this, "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProfile(token, fileToUpload, requestBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.e(TAG, "onResponse: ");
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     final AlertDialog alertDialog = new AlertDialog.Builder(ShopActivity.this).create();
@@ -252,7 +256,8 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
                         }
                     }, 1000);
                     Glide.with(ShopActivity.this)
-                            .load(jsonObject.getString("image"))
+                            .load(returnUri)
+                            .placeholder(R.drawable.ic_launcher_background)
                             .into(imageView_cover);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -302,29 +307,52 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
     private void setView() {
         try {
             if (jsonObject != null) {
-                textView_shopname.setText(jsonObject.getString("shop_name"));
-                materialButton_shopname.setText("Shop name : " + jsonObject.getString("shop_name"));
-                materialButton_email.setText("Shop email : " + jsonObject.getString("email"));
-                materialButton_phone.setText("Shop phone : " + jsonObject.getString("phone"));
-                materialButton_address.setText("Shop address : " + jsonObject.getString("address"));
-                materialButton_description.setText("Shop description : " + jsonObject.getString("detail"));
-                if (jsonObject.getString("pic") != null) {
+                if (jsonObject.getString("shop_name") != "null") {
+                    textView_shopname.setText(jsonObject.getString("shop_name"));
+                    materialButton_shopname.setText("Shop name : " + jsonObject.getString("shop_name"));
+                } else {
+                    textView_shopname.setText("Shop name");
+                    materialButton_shopname.setText("Click to edit shop name");
+                }
+                if (jsonObject.getString("email") != "null") {
+                    materialButton_email.setText("Shop email : " + jsonObject.getString("email"));
+                } else {
+                    materialButton_email.setText("Click to edit shop email");
+                }
+                if (jsonObject.getString("phone") != "null") {
+                    materialButton_phone.setText("Shop phone : " + jsonObject.getString("phone"));
+                } else {
+                    materialButton_phone.setText("Click to edit shop phone");
+                }
+                if (jsonObject.getString("address") != "null") {
+                    materialButton_address.setText("Shop address : " + jsonObject.getString("address"));
+                } else {
+                    materialButton_address.setText("Click to edit shop address");
+                }
+                if (jsonObject.getString("detail") != "null") {
+                    materialButton_description.setText("Shop description : " + jsonObject.getString("detail"));
+                } else {
+                    materialButton_description.setText("Click to edit shop description");
+                }
+                if (jsonObject.getString("pic") != "null") {
                     Glide.with(this)
                             .load(jsonObject.getString("pic"))
+                            .placeholder(R.drawable.ic_launcher_background)
                             .into(circleImageView_logo);
                 }
-                if (jsonObject.getString("shop_cover") != null) {
+                if (jsonObject.getString("shop_cover") != "null") {
                     Glide.with(this)
                             .load(jsonObject.getString("shop_cover"))
+                            .placeholder(R.drawable.ic_launcher_background)
                             .into(imageView_cover);
                 }
             } else {
                 textView_shopname.setText("Shop Name");
-                materialButton_shopname.setText("Edit Shop name");
-                materialButton_email.setText("Edit Shop email");
-                materialButton_phone.setText("Edit Shop phone");
-                materialButton_address.setText("Edit Shop address");
-                materialButton_description.setText("Edit Shop Description");
+                materialButton_shopname.setText("Click Edit Shop name");
+                materialButton_email.setText("Click Edit Shop email");
+                materialButton_phone.setText("Click Edit Shop phone");
+                materialButton_address.setText("Click Edit Shop address");
+                materialButton_description.setText("Click Edit Shop Description");
             }
         } catch (JSONException e) {
             e.printStackTrace();

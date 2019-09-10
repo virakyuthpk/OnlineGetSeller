@@ -1,10 +1,14 @@
 package com.phsartech.onlinegetseller.dialog;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,6 +29,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.activity.AddProductActivity;
+import com.phsartech.onlinegetseller.activity.LoginActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
 import com.phsartech.onlinegetseller.fragment.SettingFragment;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
@@ -98,34 +104,51 @@ public class EditDialog extends DialogFragment {
         setupToolbar();
         if (control == "Username") {
             textInputLayout_edit.setHint("New Username");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Email") {
             textInputLayout_edit.setHint("New Email");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Phone") {
             textInputLayout_edit.setHint("New Phone");
+            textInputEditText_edit.setSingleLine(true);
+            textInputEditText_edit.setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if (control == "Address") {
             textInputLayout_edit.setHint("New Address");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Description") {
             textInputLayout_edit.setHint("New Description");
             textInputLayout_edit.setCounterEnabled(true);
         } else if (control == "Shop name") {
             textInputLayout_edit.setHint("New Shop name");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Shop email") {
             textInputLayout_edit.setHint("New Shop email");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Shop phone") {
             textInputLayout_edit.setHint("New Shop phone");
+            textInputEditText_edit.setSingleLine(true);
+            textInputEditText_edit.setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if (control == "Shop address") {
             textInputLayout_edit.setHint("New Shop address");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Shop detail") {
             textInputLayout_edit.setHint("New Shop detail");
             textInputLayout_edit.setCounterEnabled(true);
         } else if (control == "Product name") {
             textInputLayout_edit.setHint("New Product name");
+            textInputEditText_edit.setSingleLine(true);
         } else if (control == "Product qty") {
             textInputLayout_edit.setHint("New Product Qty");
+            textInputEditText_edit.setSingleLine(true);
+            textInputEditText_edit.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
         } else if (control == "Product price") {
             textInputLayout_edit.setHint("New Product sell price");
+            textInputEditText_edit.setSingleLine(true);
+            textInputEditText_edit.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
         } else if (control == "Product video") {
             textInputLayout_edit.setHint("New Product Video Url");
+            textInputEditText_edit.setSingleLine(true);
+            textInputEditText_edit.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
         } else if (control == "Product description") {
             textInputLayout_edit.setHint("New Product description");
             textInputLayout_edit.setCounterEnabled(true);
@@ -153,44 +176,242 @@ public class EditDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (control == "Username") {
-                    editUsername(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new username!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editUsername(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Email") {
-                    editEmail(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new email!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editEmail(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Phone") {
-                    editPhone(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (textInputEditText_edit.getText().length() < 10) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new phone number!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editPhone(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Address") {
-                    editAddress(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new address!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editAddress(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Description") {
-                    editDes(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new description!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editDes(textInputEditText_edit.getText().toString(), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Shop name") {
-                    editShopName(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new shop name!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editShopName(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Shop email") {
-                    editShopEmail(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new shop email!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editShopEmail(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Shop phone") {
-                    editShopPhone(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (textInputEditText_edit.getText().length() < 10) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new shop phone!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editShopPhone(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Shop address") {
-                    editShopAddress(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new shop address!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editShopAddress(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Shop detail") {
-                    editShopDetail(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new shop description!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editShopDetail(textInputEditText_edit.getText().toString(), LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Product name") {
-                    editProductName(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new product name!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editProductName(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Product qty") {
-                    editProductQty(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new product name!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editProductQty(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Product price") {
-                    editProductPrice(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new product price!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editProductPrice(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Product video") {
-                    editProductVideo(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new product video!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editProductVideo(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    }
                 } else if (control == "Product description") {
-                    editProductDescription(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Please input new product description!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    } else {
+                        editProductDescription(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                    }
                 }
             }
         });
     }
 
     private void editProductPrice(final String price, int productId, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProductSellPrice(token, productId, Integer.parseInt(price)).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -219,9 +440,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editProductName(final String name, int productId, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProductName(token, productId, name).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -250,9 +474,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editProductQty(final String qty, int productId, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProductQty(token, productId, Integer.parseInt(qty)).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -281,9 +508,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editProductVideo(final String video, int productId, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProductVideo(token, productId, video).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -312,9 +542,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editProductDescription(final String des, int productId, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProductDes(token, productId, des).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -343,9 +576,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editShopName(final String name, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editShopName(token, id, name).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -374,9 +610,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editShopEmail(final String email, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editShopEmail(token, id, email).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -405,9 +644,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editShopPhone(final String phone, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editShopPhone(token, id, phone).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -436,9 +678,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editShopAddress(final String address, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editShopAddress(token, id, address).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -467,9 +712,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editShopDetail(final String detail, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editShopDetail(token, id, detail).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -498,9 +746,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editDes(final String bio, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editBio(token, id, bio).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -529,9 +780,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editAddress(final String address, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editAddress(token, id, address).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -560,9 +814,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editPhone(final String phone, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editPhone(token, id, phone).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -591,9 +848,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editEmail(final String email, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editEmail(token, id, email).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {
@@ -622,9 +882,12 @@ public class EditDialog extends DialogFragment {
     }
 
     private void editUsername(final String username, int id, String token) {
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editUsername(token, id, username).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {

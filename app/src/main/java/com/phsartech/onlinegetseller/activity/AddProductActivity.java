@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.nearby.connection.Payload;
 import com.google.android.material.button.MaterialButton;
@@ -102,7 +103,6 @@ public class AddProductActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
-
         registerComponent();
         setupToolbar();
 
@@ -229,6 +229,8 @@ public class AddProductActivity extends AppCompatActivity implements
 
             parts[i] = fileToUpload;
         }
+        final ProgressDialog progressDialog = ProgressDialog.show(AddProductActivity.this, "",
+                "Loading, Please wait...", true);
 
         ApiHelper.getService().addProduct(
                 LocalDataStore.getToken(AddProductActivity.this),
@@ -238,6 +240,7 @@ public class AddProductActivity extends AppCompatActivity implements
         ).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     Log.e(TAG, "onResponse: " + jsonObject.getString("success"));

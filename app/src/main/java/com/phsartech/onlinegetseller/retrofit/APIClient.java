@@ -114,9 +114,10 @@ public interface APIClient {
             @Header("Authorization") String token);
 
     //getshopdetail
-    @GET("v4/shop-detail/{id}")
+    @GET("v4/shop-detail/{id}/{user_id}")
     Call<JsonObject> getShopDetail(
             @Path("id") int id,
+            @Path("user_id") int user_id,
             @Header("Authorization") String token);
 
     //getterm

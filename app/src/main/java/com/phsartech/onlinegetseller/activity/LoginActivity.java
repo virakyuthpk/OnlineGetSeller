@@ -3,16 +3,25 @@ package com.phsartech.onlinegetseller.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -67,9 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         inputEditText_password = findViewById(R.id.edit_text_password);
         materialButton_login = findViewById(R.id.button_login);
         loginButton_facebook = findViewById(R.id.login_button);
-        loginButton_facebook.setVisibility(View.GONE);
         textView_or = findViewById(R.id.text_or);
-        textView_or.setVisibility(View.GONE);
         materialButton_forgetpassword = findViewById(R.id.material_text_button_forget_password);
         inputEditText_email.setSingleLine(true);
     }
@@ -100,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                         LocalDataStore.setToken(LoginActivity.this, "Bearer " + jsonObject.getString("token"));
                         LocalDataStore.setID(LoginActivity.this, jsonObject.getInt("user_id"));
                         LocalDataStore.setLogin(LoginActivity.this, true);
+                        LocalDataStore.setSHOPID(LoginActivity.this, jsonObject.getInt("shop_id"));
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         progressDialog.dismiss();
                         startActivity(intent);
@@ -122,11 +130,15 @@ public class LoginActivity extends AppCompatActivity {
         return text != null && text.length() > 0;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this,R.color.colorBackground));
+        }
         registerComponent();
 
         callBackManager = CallbackManager.Factory.create();

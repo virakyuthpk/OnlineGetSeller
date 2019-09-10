@@ -3,6 +3,7 @@ package com.phsartech.onlinegetseller.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,6 +29,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.activity.LoginActivity;
 import com.phsartech.onlinegetseller.activity.ShopActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonLogoutClick;
@@ -91,7 +93,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         registerComponent(view);
         getDataUser(LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
-        getDataShop(LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
+        getDataShop(LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
         return view;
     }
 
@@ -193,19 +195,18 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         EditDialog.display(getFragmentManager(), value, this);
     }
 
-    private void getDataShop(int id, String token) {
-        ApiHelper.getService().getShopDetail(id, token).enqueue(new Callback<JsonObject>() {
+    private void getDataShop(int id, int user_id, String token) {
+        ApiHelper.getService().getShopDetail(id, user_id, token).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 try {
                     JSONObject object = new JSONObject(response.body().toString());
-                    if (object.getString("success") != "false") {
-                        JSONObject jsonObject = new JSONObject(String.valueOf(object.getJSONObject("data")));
-                        jsonOject_shop = jsonObject;
-                        setViewShop(jsonObject);
+                    JSONObject jsonObject = new JSONObject(String.valueOf(object.getJSONObject("data")));
+                    jsonOject_shop = jsonObject;
+                    if (jsonObject.getString("shop_name") != "null") {
+                        materialButton_shop.setText(jsonObject.getString("shop_name"));
                     } else {
-                        materialButton_shop.setText("Create Shop");
-                        jsonOject_shop = null;
+                        materialButton_shop.setText("Click to edit shop!");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -241,23 +242,37 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
 
     private void setViewUser(JSONObject jsonObject) {
         try {
-            materialButton_username.setText("Username : " + jsonObject.getString("username") + "");
-            materialButton_email.setText("Email : " + jsonObject.getString("email") + "");
-            materialButton_des.setText("Description : " + jsonObject.getString("bio") + "");
-            materialButton_phone.setText("Phone : " + jsonObject.getString("phone") + "");
-            materialButton_address.setText("Address : " + jsonObject.getString("address") + "");
-            textView_username.setText(jsonObject.getString("username") + "");
+            if (jsonObject.getString("username") != "null") {
+                materialButton_username.setText("Username : " + jsonObject.getString("username") + "");
+                textView_username.setText(jsonObject.getString("username") + "");
+            } else {
+                textView_username.setText("Username");
+                materialButton_username.setText("Click to edit username");
+            }
+            if (jsonObject.getString("email") != "null") {
+                materialButton_email.setText("Email : " + jsonObject.getString("email") + "");
+            } else {
+                materialButton_email.setText("Click to edit email");
+            }
+            if (jsonObject.getString("bio") != "null") {
+                materialButton_des.setText("Description : " + jsonObject.getString("bio") + "");
+            } else {
+                materialButton_des.setText("Click to edit Description");
+            }
+            if (jsonObject.getString("phone") != "null") {
+                materialButton_phone.setText("Phone : " + jsonObject.getString("phone") + "");
+            } else {
+                materialButton_phone.setText("Click to edit phone");
+            }
+            if (jsonObject.getString("address") != "null") {
+                materialButton_address.setText("Address : " + jsonObject.getString("address") + "");
+            } else {
+                materialButton_address.setText("Click to edit address");
+            }
             Glide.with(this)
                     .load(jsonObject.getString("image_path"))
+                    .placeholder(R.drawable.ic_launcher_background)
                     .into(circleImageView_user);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setViewShop(JSONObject jsonObject) {
-        try {
-            materialButton_shop.setText(jsonObject.getString("shop_name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -291,7 +306,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         }
     }
 
-    private void editProfile(Uri returnUri) {
+    private void editProfile(final Uri returnUri) {
 
         String filePath = getRealPathFromURIPath(returnUri, getActivity());
         File file = new File(filePath);
@@ -302,11 +317,12 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         String token = LocalDataStore.getToken(getActivity());
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), id + "");
-
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "",
+                "Loading, Please wait...", true);
         ApiHelper.getService().editProfile(token, fileToUpload, requestBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.e(TAG, "onResponse: ");
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -319,7 +335,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
                         }
                     }, 1000);
                     Glide.with(fragment)
-                            .load(jsonObject.getString("image"))
+                            .load(returnUri)
                             .into(circleImageView_user);
                 } catch (JSONException e) {
                     e.printStackTrace();

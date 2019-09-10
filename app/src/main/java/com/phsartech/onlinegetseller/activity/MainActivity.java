@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.login.LoginManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.phsartech.onlinegetseller.R;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements
         LocalDataStore.setSHOPID(MainActivity.this, 0);
         LocalDataStore.setToken(MainActivity.this, "");
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        LoginManager.getInstance().logOut();
         finish();
     }
 
