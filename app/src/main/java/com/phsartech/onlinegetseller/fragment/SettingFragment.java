@@ -31,11 +31,13 @@ import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.activity.ShopActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonLogoutClick;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionSetNewPassword;
 import com.phsartech.onlinegetseller.dialog.AboutDialog;
 import com.phsartech.onlinegetseller.dialog.ChangePassWordDialog;
 import com.phsartech.onlinegetseller.dialog.EditDialog;
 import com.phsartech.onlinegetseller.dialog.PolicyDialog;
 import com.phsartech.onlinegetseller.dialog.SaleOnOnlineGetDialog;
+import com.phsartech.onlinegetseller.dialog.SetPasswordDialog;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
 
@@ -55,7 +57,7 @@ import retrofit2.Response;
 import static android.app.Activity.RESULT_OK;
 
 
-public class SettingFragment extends Fragment implements CallBackFucntionAfterEdit {
+public class SettingFragment extends Fragment implements CallBackFucntionAfterEdit, CallBackFucntionSetNewPassword {
 
     private View view;
     private CircleImageView circleImageView_user;
@@ -71,6 +73,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
     private static JSONObject jsonOject_shop;
     private CallBackFucntionOnButtonLogoutClick callBackFucntionOnButtonLogoutClick;
     private Fragment fragment = this;
+    private boolean new_user;
 
     public static JSONObject getJsonOject_shop() {
         return jsonOject_shop;
@@ -119,7 +122,11 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         materialButton_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangePassWordDialog.display(getFragmentManager());
+                if (new_user == true) {
+//                    SetPasswordDialog.display(getFragmentManager(), LocalDataStore.getID(getActivity()), this);
+                } else {
+                    ChangePassWordDialog.display(getFragmentManager());
+                }
             }
         });
         materialButton_shop.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +278,13 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
                     .load(jsonObject.getString("image_path"))
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(circleImageView_user);
+            if (jsonObject.getString("new user") == "true") {
+                new_user = true;
+                materialButton_change_password.setText("Click to set up new password!");
+            } else {
+                new_user = false;
+                materialButton_change_password.setText("Change password");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -372,5 +386,10 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         } else if (control == "Description") {
             materialButton_des.setText("Description : " + value);
         }
+    }
+
+    @Override
+    public void Dismiss() {
+        new_user = false;
     }
 }

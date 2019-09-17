@@ -22,14 +22,14 @@
             <RelativeLayout
                 android:id="@+id/relative_head"
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/cover_shop"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_launcher_background" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/cover" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_logo"
@@ -46,13 +46,15 @@
                     app:icon="@drawable/camera"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
                     app:iconSize="15dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_cover"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_alignParentBottom="true"
+                    android:layout_alignBottom="@id/cover_shop"
                     android:layout_alignParentRight="true"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/colorGrey75Transparent"
@@ -68,11 +70,11 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_shop"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="25dp"
-                    android:src="@drawable/ic_launcher_background"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="125dp"
+                    android:src="@drawable/user"
                     app:civ_border_color="@color/colorWhite"
                     app:civ_border_width="2dp" />
 
@@ -80,12 +82,11 @@
                     android:id="@+id/text_shopname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="25dp"
-                    android:layout_toRightOf="@id/img_shop"
+                    android:layout_below="@id/img_shop"
+                    android:layout_centerHorizontal="true"
                     android:text="@string/text_view_shopname"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="25sp"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -95,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relative_head"
                 android:layout_marginVertical="5dp"
+                android:layout_marginTop="0dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 android:paddingTop="10dp">
