@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +15,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnItemOnSaleClick;
-import com.phsartech.onlinegetseller.fragment.ProductFragmentonsale;
 import com.phsartech.onlinegetseller.model.ProductModelOnSale;
-import com.phsartech.onlinegetseller.model.ProductModelSold;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public OnsaleProductAdapter(Context context, List<ProductModelOnSale.Data> listClear, CallBackFucntionOnItemOnSaleClick callBackFucntionOnItemOnSaleClick) {
         inflater = LayoutInflater.from(context);
         this.dataProductList = listClear;
-        this. callBackFucntionOnItemOnSaleClick = callBackFucntionOnItemOnSaleClick;
+        this.callBackFucntionOnItemOnSaleClick = callBackFucntionOnItemOnSaleClick;
     }
 
     @NonNull

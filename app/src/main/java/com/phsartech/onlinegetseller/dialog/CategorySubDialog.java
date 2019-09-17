@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.activity.AddProductActivity;
 import com.phsartech.onlinegetseller.adapter.CategorySubAdapter;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonCategorySubClick;
 import com.phsartech.onlinegetseller.callback.CallBackFunctionOnButtonCategorySubDialogClick;

@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.adapter.ItemAllOrderAdapter;
 import com.phsartech.onlinegetseller.adapter.ItemDeliveryOrderAdapter;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;

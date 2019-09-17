@@ -22,14 +22,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.activity.LoginActivity;
 import com.phsartech.onlinegetseller.activity.ShopActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnButtonLogoutClick;

@@ -6,20 +6,16 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,10 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.activity.AddProductActivity;
-import com.phsartech.onlinegetseller.activity.LoginActivity;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;
-import com.phsartech.onlinegetseller.fragment.SettingFragment;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
 
@@ -53,6 +46,7 @@ public class EditDialog extends DialogFragment {
     private MaterialButton materialButton_done;
     private String control;
     private Toolbar toolbar;
+    String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
 
     public EditDialog(String control, CallBackFucntionAfterEdit callBackFucntionAfterEdit) {
         this.control = control;
@@ -210,6 +204,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new phone number!");
+                        textInputLayout_edit.setError("please input phone");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -225,6 +220,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new address!");
+                        textInputLayout_edit.setError("please input address");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -240,6 +236,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new description!");
+                        textInputLayout_edit.setError("please input description");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -255,6 +252,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new shop name!");
+                        textInputLayout_edit.setError("please input name");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -270,6 +268,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new shop email!");
+                        textInputLayout_edit.setError("please input email");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -285,6 +284,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new shop phone!");
+                        textInputLayout_edit.setError("please input phone");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -300,6 +300,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new shop address!");
+                        textInputLayout_edit.setError("please input address");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -315,6 +316,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new shop description!");
+                        textInputLayout_edit.setError("please input description");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -330,6 +332,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new product name!");
+                        textInputLayout_edit.setError("please input name");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -344,7 +347,8 @@ public class EditDialog extends DialogFragment {
                     if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
-                        alertDialog.setMessage("Please input new product name!");
+                        alertDialog.setMessage("Please input new product qty!");
+                        textInputLayout_edit.setError("please input qty");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -360,6 +364,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new product price!");
+                        textInputLayout_edit.setError("please input price");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -375,6 +380,7 @@ public class EditDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new product video!");
+                        textInputLayout_edit.setError("please input video url");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -383,13 +389,28 @@ public class EditDialog extends DialogFragment {
                         });
                         alertDialog.show();
                     } else {
-                        editProductVideo(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                        if (textInputEditText_edit.getText().toString().matches(pattern)) {
+                            editProductVideo(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
+                        } else {
+                            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                            alertDialog.setTitle("Sorry");
+                            alertDialog.setMessage("Video Url is not valid!");
+                            textInputLayout_edit.setError("url is not valid");
+                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            alertDialog.show();
+                        }
                     }
                 } else if (control == "Product description") {
                     if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Please input new product description!");
+                        textInputLayout_edit.setError("please input description");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

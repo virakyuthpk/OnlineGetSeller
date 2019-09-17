@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.phsartech.onlinegetseller.activity.AddProductActivity;
-
-import java.util.ArrayList;
-
 public class LocalDataStore {
     private static String TAG = "localDataStore";
 

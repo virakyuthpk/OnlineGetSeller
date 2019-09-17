@@ -195,7 +195,7 @@
                     android:id="@+id/text_p_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri"
+                    android:inputType="textWebEmailAddress"
                     android:maxLines="1"
                     android:textSize="@dimen/normal_size" />
             </com.google.android.material.textfield.TextInputLayout>

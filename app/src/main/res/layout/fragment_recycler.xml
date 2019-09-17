@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:id="@+id/swipe_refresh"
+        android:id="@+id/swipe_refresh_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:layout_centerInParent="true"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/spin_kit"
         style="@style/SpinKitView.Large.FadingCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         app:SpinKit_Color="@color/colorGrey" />
+
     <TextView
-        android:textAlignment="center"
         android:id="@+id/txt_status"
-        android:textSize="20sp"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/emty_data_text"/>
+        android:layout_centerInParent="true"
+        android:text="@string/emty_data_text"
+        android:textAlignment="center"
+        android:textSize="20sp" />
 </RelativeLayout>

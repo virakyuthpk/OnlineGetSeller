@@ -1,6 +1,5 @@
 package com.phsartech.onlinegetseller.activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,14 +15,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
-import com.google.android.gms.nearby.connection.Payload;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -56,7 +52,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -73,6 +68,7 @@ public class AddProductActivity extends AppCompatActivity implements
         CallBackFunctionOnButtonSupplierClick,
         CallBackFunctionOnButtonUnitClick {
 
+    String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
     private TextInputLayout textInputLayout_name,
             textInputLayout_qty,
             textInputLayout_price,
@@ -155,21 +151,64 @@ public class AddProductActivity extends AppCompatActivity implements
                         }
                     });
                     alertDialog.show();
+                    if (TextUtils.isEmpty(textInputEditText_name.getText())) {
+                        textInputLayout_name.setError("Please input product name!");
+                    }
+                    if (TextUtils.isEmpty(textInputEditText_price.getText())) {
+                        textInputLayout_name.setError("Please input product price!");
+                    }
+                    if (TextUtils.isEmpty(textInputEditText_des.getText())) {
+                        textInputLayout_name.setError("Please input product description!");
+                    }
+                    if (TextUtils.isEmpty(textInputEditText_qty.getText())) {
+                        textInputLayout_name.setError("Please input product qty!");
+                    }
+                    if (TextUtils.isEmpty(textInputEditText_video.getText())) {
+                        textInputLayout_name.setError("Please input product video!");
+                    }
+                    if (mPaths_img == null) {
+                        materialButton_photo.setError("");
+                    }
+                    if (item_category == null ||
+                            item_parent_category == null ||
+                            item_sub_category == null) {
+                        materialButton_category.setError("");
+                    }
+                    if (item_brand == null) {
+                        materialButton_brand.setError("");
+                    }
+                    if (item_unit == null) {
+                        materialButton_unit.setError("");
+                    }
                 } else {
-                    addProduct(
-                            textInputEditText_name.getText().toString(),
-                            Integer.parseInt(textInputEditText_qty.getText().toString()),
-                            Integer.parseInt(textInputEditText_price.getText().toString()),
-                            textInputEditText_video.getText().toString(),
-                            textInputEditText_des.getText().toString(),
-                            mPaths_img,
-                            item_category.getId(),
-                            item_parent_category.getId(),
-                            item_sub_category.getId(),
-                            item_brand.getId(),
-                            item_supplier.getId(),
-                            item_unit.getId()
-                    );
+                    if (textInputEditText_video.getText().toString().matches(pattern)) {
+                        addProduct(
+                                textInputEditText_name.getText().toString(),
+                                Integer.parseInt(textInputEditText_qty.getText().toString()),
+                                Integer.parseInt(textInputEditText_price.getText().toString()),
+                                textInputEditText_video.getText().toString(),
+                                textInputEditText_des.getText().toString(),
+                                mPaths_img,
+                                item_category.getId(),
+                                item_parent_category.getId(),
+                                item_sub_category.getId(),
+                                item_brand.getId(),
+                                item_supplier.getId(),
+                                item_unit.getId()
+                        );
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(AddProductActivity.this).create();
+                        alertDialog.setTitle("Sorry");
+                        alertDialog.setMessage("Video Url is not valid!");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                        textInputLayout_video.setError("Not valid url!");
+                    }
                 }
             }
         });

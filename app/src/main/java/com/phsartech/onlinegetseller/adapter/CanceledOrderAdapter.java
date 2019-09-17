@@ -79,6 +79,6 @@ public class CanceledOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return dataProductList.size();
     }
 }

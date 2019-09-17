@@ -3,7 +3,6 @@ package com.phsartech.onlinegetseller.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -234,13 +231,13 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
         RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
 
-        int id = LocalDataStore.getID(ShopActivity.this);
+        int id = LocalDataStore.getSHOPID(ShopActivity.this);
         String token = LocalDataStore.getToken(ShopActivity.this);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), id + "");
         final ProgressDialog progressDialog = ProgressDialog.show(ShopActivity.this, "",
                 "Loading, Please wait...", true);
-        ApiHelper.getService().editProfile(token, fileToUpload, requestBody).enqueue(new Callback<JsonObject>() {
+        ApiHelper.getService().editCover(token, fileToUpload, requestBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 progressDialog.dismiss();

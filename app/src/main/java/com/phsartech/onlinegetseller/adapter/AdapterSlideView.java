@@ -11,7 +11,6 @@ import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.model.GalleryModel;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterSlideView extends SliderViewAdapter<AdapterSlideView.SlideViewHolder> {

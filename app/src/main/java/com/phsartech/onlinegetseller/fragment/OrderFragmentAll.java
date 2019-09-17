@@ -1,5 +1,6 @@
 package com.phsartech.onlinegetseller.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,8 +19,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.AllOrderAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionRefreshData;
 import com.phsartech.onlinegetseller.callback.CallBackFunctionOnItemClickAll;
-import com.phsartech.onlinegetseller.callback.EndlessRecyclerViewScrollListener;
 import com.phsartech.onlinegetseller.dialog.ItemOrderDialogAll;
 import com.phsartech.onlinegetseller.model.OrderModel;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
@@ -32,29 +33,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItemClickAll {
+public class OrderFragmentAll extends Fragment
+        implements CallBackFunctionOnItemClickAll,
+        CallBackFucntionRefreshData {
 
     private RecyclerView recycler_all;
-    private SwipeRefreshLayout swipeRefreshLayout_all;
-    private EndlessRecyclerViewScrollListener listener;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private SpinKitView spinKitView_all;
     private TextView textView_all;
+    private List<OrderModel.Data> list = new ArrayList<>();
+    private List<OrderModel.Data> listClear = new ArrayList<>();
+    private AllOrderAdapter allOrderAdapter;
+    private String TAG = "OrderFragmentAll";
+    private boolean isSwapRefresh;
     private SwipeRefreshLayout.OnRefreshListener refreshEvent = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
             isSwapRefresh = true;
-            listener.resetState();
-            getData(LocalDataStore.getID(getActivity()), LocalDataStore.getToken(getActivity()));
+            getData(LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
         }
     };
-    private List<OrderModel.Data> list = new ArrayList<>();
-    private List<OrderModel.Data> listClear = new ArrayList<>();
-    private AllOrderAdapter allOrderAdapter;
-
-
-    private boolean isSwapRefresh;
-    private LinearLayoutManager manager;
-    private String TAG = "OrderFragmentAll";
 
     public static Fragment newInstance(int position) {
 
@@ -69,47 +67,11 @@ public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItem
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler, container, false);
-
         registerComponent(view);
-
-        swipeRefreshLayout_all.setOnRefreshListener(refreshEvent);
-
+        swipeRefreshLayout.setOnRefreshListener(refreshEvent);
         textView_all.setVisibility(View.GONE);
-
-        setData();
-        return view;
-    }
-
-    private void setData() {
-        manager = new LinearLayoutManager(getActivity());
-
         getData(LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
-
-        listener = new EndlessRecyclerViewScrollListener(manager) {
-            @Override
-            public void onLoadMore(int item, int totalItemsCount, RecyclerView view) {
-                item = +10;
-                loadNext(LocalDataStore.getSHOPID(getActivity()), item);
-            }
-        };
-
-    }
-
-    private void loadNext(int id, int item) {
-        spinKitView_all.setVisibility(View.VISIBLE);
-        ApiHelper.getService().getProductAllNext(id, item).enqueue(new Callback<OrderModel>() {
-            @Override
-            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
-                spinKitView_all.setVisibility(View.GONE);
-                listClear.addAll(response.body().getDataList());
-                allOrderAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<OrderModel> call, Throwable t) {
-                Log.e("onFailure: ", t.getMessage());
-            }
-        });
+        return view;
     }
 
     private void getData(int id, String token) {
@@ -117,14 +79,13 @@ public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItem
         ApiHelper.getService().getProductAll(id, token).enqueue(new Callback<OrderModel>() {
             @Override
             public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                swipeRefreshLayout.setRefreshing(false);
+                spinKitView_all.setVisibility(View.GONE);
                 if (response.body().getDataList().toString() == "[]") {
-                    spinKitView_all.setVisibility(View.GONE);
-//                    textView_all.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout_all.setRefreshing(false);
+                    textView_all.setVisibility(View.VISIBLE);
                 } else {
                     list = response.body().getDataList();
                     spinKitView_all.setVisibility(View.GONE);
-                    swipeRefreshLayout_all.setRefreshing(false);
                     if (isSwapRefresh) {
                         isSwapRefresh = false;
                         listClear.clear();
@@ -138,8 +99,8 @@ public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItem
             @Override
             public void onFailure(Call<OrderModel> call, Throwable t) {
                 Log.e("onFailure: ", t.getMessage());
-                swipeRefreshLayout_all.setRefreshing(false);
                 spinKitView_all.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 textView_all.setText("Sorry Something happen to your internet!");
                 textView_all.setVisibility(View.VISIBLE);
             }
@@ -149,19 +110,25 @@ public class OrderFragmentAll extends Fragment implements CallBackFunctionOnItem
     private void setView() {
         allOrderAdapter = new AllOrderAdapter(getContext(), listClear, this);
         recycler_all.setAdapter(allOrderAdapter);
-        recycler_all.setLayoutManager(manager);
+        recycler_all.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler_all.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
     }
 
     private void registerComponent(View view) {
         recycler_all = view.findViewById(R.id.recycler);
-        swipeRefreshLayout_all = view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_header);
         spinKitView_all = view.findViewById(R.id.spin_kit);
         textView_all = view.findViewById(R.id.txt_status);
+        swipeRefreshLayout.setColorSchemeColors(Color.rgb(21, 112, 191));
     }
 
     @Override
     public void onItemClickAll(int shop_id, int user_id, String image, String name, String email) {
-        ItemOrderDialogAll.display(getFragmentManager(), shop_id, user_id, "all", image, name, email);
+        ItemOrderDialogAll.display(getFragmentManager(), shop_id, user_id, "all", image, name, email, this);
+    }
+
+    @Override
+    public void refresh() {
+        getData(LocalDataStore.getSHOPID(getActivity()), LocalDataStore.getToken(getActivity()));
     }
 }

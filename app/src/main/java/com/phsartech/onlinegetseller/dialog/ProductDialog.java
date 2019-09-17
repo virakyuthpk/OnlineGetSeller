@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.JsonObject;
 import com.phsartech.onlinegetseller.R;
-import com.phsartech.onlinegetseller.activity.AddProductActivity;
 import com.phsartech.onlinegetseller.activity.MainActivity;
 import com.phsartech.onlinegetseller.adapter.AdapterSlideView;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionAfterEdit;

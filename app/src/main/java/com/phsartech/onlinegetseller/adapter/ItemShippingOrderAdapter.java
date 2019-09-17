@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionAcceptShipping;
 import com.phsartech.onlinegetseller.model.OrderModel;
 
 import java.util.List;
@@ -26,10 +27,12 @@ public class ItemShippingOrderAdapter extends RecyclerView.Adapter<MyViewHolder>
     private ImageView imageView;
     private TextView textView_name, textView_qty, textView_time;
     private MaterialButton materialButton_positive, materialButton_negative;
+    private CallBackFucntionAcceptShipping callBackFucntionAcceptShipping;
 
-    public ItemShippingOrderAdapter(Context context, List<OrderModel.Data> list) {
+    public ItemShippingOrderAdapter(Context context, List<OrderModel.Data> list, CallBackFucntionAcceptShipping callBackFucntionAcceptShipping) {
         this.inflater = LayoutInflater.from(context);
         this.dataProductList = list;
+        this.callBackFucntionAcceptShipping = callBackFucntionAcceptShipping;
     }
 
     @NonNull
@@ -48,13 +51,12 @@ public class ItemShippingOrderAdapter extends RecyclerView.Adapter<MyViewHolder>
         textView_time = view.findViewById(R.id.text_item_order_product_time);
         materialButton_positive = view.findViewById(R.id.button_positive);
         materialButton_negative = view.findViewById(R.id.button_negative);
-        materialButton_positive.setVisibility(View.GONE);
         materialButton_negative.setVisibility(View.GONE);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        OrderModel.Data item = dataProductList.get(position);
+        final OrderModel.Data item = dataProductList.get(position);
 
         textView_name.setText(item.getPname());
         textView_qty.setText("Order qty : " + item.getQty() + "");
@@ -65,6 +67,12 @@ public class ItemShippingOrderAdapter extends RecyclerView.Adapter<MyViewHolder>
                     .load(item.getPimage())
                     .into(imageView);
         }
+        materialButton_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBackFucntionAcceptShipping.acceptShipping(item);
+            }
+        });
     }
 
     @Override

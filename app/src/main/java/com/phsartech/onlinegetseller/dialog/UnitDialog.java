@@ -114,6 +114,7 @@ public class UnitDialog extends DialogFragment implements CallBackFunctionOnButt
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
     }
+
     @Override
     public void onButtonUnitClick(UnitModel.DataEntity item) {
         callBackFunctionOnButtonUnitClick.onButtonUnitClick(item);

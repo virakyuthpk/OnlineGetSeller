@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_order"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@drawable/background_item"
     android:layout_marginLeft="@dimen/mtrl_card_spacing"
     android:layout_marginTop="@dimen/mtrl_card_spacing"
-    android:layout_marginRight="@dimen/mtrl_card_spacing">
+    android:layout_marginRight="@dimen/mtrl_card_spacing"
+    android:background="@drawable/background_item">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_thumbnail_order"
-            android:layout_width="@dimen/img_all"
-            android:layout_height="@dimen/img_all"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:src="@drawable/ic_launcher_background" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/img_thumbnail_order"
@@ -38,19 +37,28 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/title_item" />
 
-            <TextView
-                android:id="@+id/text_item_order"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/count_item" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_time_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/time_item" />
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/text_item_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/count_item" />
+
+                <TextView
+                    android:layout_weight="0"
+                    android:id="@+id/text_time_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/time_item" />
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>
