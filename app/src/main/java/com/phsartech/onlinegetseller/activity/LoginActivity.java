@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.colorBackground));
+            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.colorGrey50Transparent));
         }
         registerComponent();
 

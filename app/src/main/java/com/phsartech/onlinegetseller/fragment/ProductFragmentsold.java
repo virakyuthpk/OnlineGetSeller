@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.SoldProductAdapter;
 import com.phsartech.onlinegetseller.model.ProductModelSold;

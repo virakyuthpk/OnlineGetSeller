@@ -22,7 +22,7 @@
             android:layout_width="@dimen/img_all"
             android:layout_height="@dimen/img_all"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/noimg" />
 
         <LinearLayout
             android:layout_width="wrap_content"

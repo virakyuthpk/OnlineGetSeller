@@ -122,11 +122,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
         materialButton_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (new_user == true) {
-//                    SetPasswordDialog.display(getFragmentManager(), LocalDataStore.getID(getActivity()), this);
-                } else {
-                    ChangePassWordDialog.display(getFragmentManager());
-                }
+                checkUser();
             }
         });
         materialButton_shop.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +180,14 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
                 }
             }
         });
+    }
+
+    private void checkUser() {
+        if (new_user == true) {
+            SetPasswordDialog.display(getFragmentManager(), LocalDataStore.getID(getActivity()), this);
+        } else {
+            ChangePassWordDialog.display(getFragmentManager());
+        }
     }
 
     private void startGallery() {
@@ -391,5 +395,6 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
     @Override
     public void Dismiss() {
         new_user = false;
+        materialButton_change_password.setText("Change password");
     }
 }
