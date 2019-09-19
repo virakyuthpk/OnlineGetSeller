@@ -24,7 +24,6 @@ public class AdapterSlideView extends SliderViewAdapter<AdapterSlideView.SlideVi
         this.slides = slides;
     }
 
-
     @Override
     public SlideViewHolder onCreateViewHolder(ViewGroup parent) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_item, null);

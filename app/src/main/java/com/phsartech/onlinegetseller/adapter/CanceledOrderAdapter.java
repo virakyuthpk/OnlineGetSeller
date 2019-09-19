@@ -68,7 +68,7 @@ public class CanceledOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
                     .into(imageView_thumbnail);
         }
         textView_time.setText(item.getCreated_at() + "");
-        
+
         materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

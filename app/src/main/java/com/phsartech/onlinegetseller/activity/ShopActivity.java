@@ -208,6 +208,7 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
@@ -263,6 +264,7 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });

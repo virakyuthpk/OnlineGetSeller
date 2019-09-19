@@ -81,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         ApiHelper.getService().login_fb(id, first_name, last_name, name, email, image_path).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
                 if (response.body() == null) {
-                    progressDialog.dismiss();
                     AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                     alertDialog.setTitle("Sorry");
                     alertDialog.setMessage("Something Bad Happened!");
@@ -101,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                         LocalDataStore.setLogin(LoginActivity.this, true);
                         LocalDataStore.setSHOPID(LoginActivity.this, jsonObject.getInt("shop_id"));
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        progressDialog.dismiss();
                         startActivity(intent);
                         finish();
                     } catch (JSONException e) {
@@ -112,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
 
@@ -227,12 +227,11 @@ public class LoginActivity extends AppCompatActivity {
         ApiHelper.getService().getLogin(email, password).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
 
-                Log.e(TAG, "onResponse: " + response.body());
                 try {
                     if (response.body() == null) {
 
-                        progressDialog.dismiss();
                         final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                         alertDialog.setTitle("Sorry");
                         alertDialog.setMessage("Username or Password isn't correct!");
@@ -251,7 +250,6 @@ public class LoginActivity extends AppCompatActivity {
                         LocalDataStore.setID(LoginActivity.this, jsonObject.getInt("user_id"));
                         LocalDataStore.setToken(LoginActivity.this, "Bearer " + jsonObject.getString("token"));
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        progressDialog.dismiss();
 
                         startActivity(intent);
 
@@ -265,6 +263,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });

@@ -68,7 +68,7 @@ public class AddProductActivity extends AppCompatActivity implements
         CallBackFunctionOnButtonSupplierClick,
         CallBackFunctionOnButtonUnitClick {
 
-    String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
+//    String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
     private TextInputLayout textInputLayout_name,
             textInputLayout_qty,
             textInputLayout_price,
@@ -181,7 +181,7 @@ public class AddProductActivity extends AppCompatActivity implements
                         materialButton_unit.setError("");
                     }
                 } else {
-                    if (textInputEditText_video.getText().toString().matches(pattern)) {
+//                    if (textInputEditText_video.getText().toString().matches(pattern)) {
                         addProduct(
                                 textInputEditText_name.getText().toString(),
                                 Integer.parseInt(textInputEditText_qty.getText().toString()),
@@ -196,19 +196,19 @@ public class AddProductActivity extends AppCompatActivity implements
                                 item_supplier.getId(),
                                 item_unit.getId()
                         );
-                    } else {
-                        AlertDialog alertDialog = new AlertDialog.Builder(AddProductActivity.this).create();
-                        alertDialog.setTitle("Sorry");
-                        alertDialog.setMessage("Video Url is not valid!");
-                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alertDialog.show();
-                        textInputLayout_video.setError("Not valid url!");
-                    }
+//                    } else {
+//                        AlertDialog alertDialog = new AlertDialog.Builder(AddProductActivity.this).create();
+//                        alertDialog.setTitle("Sorry");
+//                        alertDialog.setMessage("Video Url is not valid!");
+//                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                        alertDialog.show();
+//                        textInputLayout_video.setError("Not valid url!");
+//                    }
                 }
             }
         });
@@ -308,6 +308,7 @@ public class AddProductActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });

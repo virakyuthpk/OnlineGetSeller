@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,7 +129,7 @@ public class SetPasswordDialog extends DialogFragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
     }

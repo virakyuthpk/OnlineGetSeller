@@ -42,7 +42,7 @@ public class CategorySubAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final CategoryModel.DataEntity item  = list.get(position);
+        final CategoryModel.DataEntity item = list.get(position);
 
         materialButton.setText(item.getTitleEn());
 

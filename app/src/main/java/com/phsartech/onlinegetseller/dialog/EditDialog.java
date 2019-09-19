@@ -46,7 +46,7 @@ public class EditDialog extends DialogFragment {
     private MaterialButton materialButton_done;
     private String control;
     private Toolbar toolbar;
-    String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
+//    String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
 
     public EditDialog(String control, CallBackFucntionAfterEdit callBackFucntionAfterEdit) {
         this.control = control;
@@ -389,21 +389,21 @@ public class EditDialog extends DialogFragment {
                         });
                         alertDialog.show();
                     } else {
-                        if (textInputEditText_edit.getText().toString().matches(pattern)) {
+//                        if (textInputEditText_edit.getText().toString().matches(pattern)) {
                             editProductVideo(textInputEditText_edit.getText().toString(), productId, LocalDataStore.getToken(getActivity()));
-                        } else {
-                            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                            alertDialog.setTitle("Sorry");
-                            alertDialog.setMessage("Video Url is not valid!");
-                            textInputLayout_edit.setError("url is not valid");
-                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                            alertDialog.show();
-                        }
+//                        } else {
+//                            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                            alertDialog.setTitle("Sorry");
+//                            alertDialog.setMessage("Video Url is not valid!");
+//                            textInputLayout_edit.setError("url is not valid");
+//                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//                            alertDialog.show();
+//                        }
                     }
                 } else if (control == "Product description") {
                     if (TextUtils.isEmpty(textInputEditText_edit.getText())) {
