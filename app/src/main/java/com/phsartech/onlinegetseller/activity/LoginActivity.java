@@ -23,6 +23,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.button.MaterialButton;
@@ -113,6 +114,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.e(TAG, "onFailure: " + t.getMessage());
+                LocalDataStore.setID(LoginActivity.this, 0);
+                LocalDataStore.setLogin(LoginActivity.this, false);
+                LocalDataStore.setSHOPID(LoginActivity.this, 0);
+                LocalDataStore.setToken(LoginActivity.this, "");
+                LoginManager.getInstance().logOut();
             }
 
         });
