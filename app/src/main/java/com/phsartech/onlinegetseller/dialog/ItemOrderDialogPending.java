@@ -116,6 +116,7 @@ public class ItemOrderDialogPending extends DialogFragment implements CallBackFu
         if (image != null) {
             Glide.with(this)
                     .load(image)
+                    .placeholder(R.drawable.noimg)
                     .into(circleImageView);
         }
         getData(LocalDataStore.getToken(getActivity()), shop_id, buyer_id);

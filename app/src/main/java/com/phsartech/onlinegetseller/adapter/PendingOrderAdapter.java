@@ -65,6 +65,7 @@ public class PendingOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
         if (item.getUser_image() != null) {
             Glide.with(view.getContext())
                     .load(item.getUser_image())
+                    .placeholder(R.drawable.noimg)
                     .into(imageView_thumbnail);
         }
         textView_time.setText(item.getCreated_at() + "");

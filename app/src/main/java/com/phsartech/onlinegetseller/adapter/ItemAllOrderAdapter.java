@@ -70,6 +70,7 @@ public class ItemAllOrderAdapter extends RecyclerView.Adapter<MyViewHolder> {
         if (item.getPimage() != null) {
             Glide.with(holder.itemView.getContext())
                     .load(item.getPimage())
+                    .placeholder(R.drawable.noimg)
                     .into(imageView);
         }
 

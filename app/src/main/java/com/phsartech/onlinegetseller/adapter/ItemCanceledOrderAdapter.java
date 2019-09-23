@@ -63,6 +63,7 @@ public class ItemCanceledOrderAdapter extends RecyclerView.Adapter<MyViewHolder>
         if (item.getPimage() != null) {
             Glide.with(holder.itemView.getContext())
                     .load(item.getPimage())
+                    .placeholder(R.drawable.noimg)
                     .into(imageView);
         }
     }

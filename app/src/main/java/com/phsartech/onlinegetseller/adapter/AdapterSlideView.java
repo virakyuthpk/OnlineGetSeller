@@ -35,6 +35,7 @@ public class AdapterSlideView extends SliderViewAdapter<AdapterSlideView.SlideVi
         GalleryModel.DataEntity item = slides.get(position);
         Glide.with(viewHolder.itemView)
                 .load(item.getPath())
+                .placeholder(R.drawable.noimg)
                 .into(viewHolder.imageView);
     }
 

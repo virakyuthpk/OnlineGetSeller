@@ -65,6 +65,7 @@ public class ItemShippingOrderAdapter extends RecyclerView.Adapter<MyViewHolder>
         if (item.getPimage() != null) {
             Glide.with(holder.itemView.getContext())
                     .load(item.getPimage())
+                    .placeholder(R.drawable.noimg)
                     .into(imageView);
         }
         materialButton_positive.setOnClickListener(new View.OnClickListener() {

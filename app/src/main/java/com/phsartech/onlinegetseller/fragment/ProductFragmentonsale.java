@@ -78,7 +78,7 @@ public class ProductFragmentonsale extends Fragment implements CallBackFucntionO
                 spinKitView_onsale.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.body().getDataList().toString() == "[]") {
-                    textView_onsale.setVisibility(View.VISIBLE);
+//                    textView_onsale.setVisibility(View.VISIBLE);
                 } else {
                     list = response.body().getDataList();
                     if (isSwapRefresh) {

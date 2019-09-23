@@ -51,6 +51,7 @@ public class OnsaleProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
         if (item.getImage() != null) {
             Glide.with(view.getContext())
                     .load(item.getImage())
+                    .placeholder(R.drawable.noimg)
                     .into(imageView_thumbnail);
         }
         textView_title.setText(item.getName_en());

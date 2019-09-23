@@ -280,7 +280,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
             }
             Glide.with(this)
                     .load(jsonObject.getString("image_path"))
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.noimg)
                     .into(circleImageView_user);
             if (jsonObject.getString("new user") == "true") {
                 new_user = true;
@@ -352,6 +352,7 @@ public class SettingFragment extends Fragment implements CallBackFucntionAfterEd
                     }, 1000);
                     Glide.with(fragment)
                             .load(returnUri)
+                            .placeholder(R.drawable.noimg)
                             .into(circleImageView_user);
                 } catch (JSONException e) {
                     e.printStackTrace();

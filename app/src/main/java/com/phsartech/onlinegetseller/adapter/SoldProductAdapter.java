@@ -48,6 +48,7 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
         if (item.getProduct_image() != null) {
             Glide.with(view.getContext())
                     .load(item.getProduct_image())
+                    .placeholder(R.drawable.noimg)
                     .into(imageView_thumbnail);
         }
         textView_time.setText(item.getCreated_at() + "");

@@ -42,6 +42,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
         Glide.with(context)
                 .asBitmap()
+                .placeholder(R.drawable.noimg)
                 .load(img_modelArrayList.get(position))
                 .into(myViewHolder.imageView);
 

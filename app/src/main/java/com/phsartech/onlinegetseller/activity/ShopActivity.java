@@ -199,7 +199,7 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
                     }, 1000);
                     Glide.with(ShopActivity.this)
                             .load(returnUri)
-                            .placeholder(R.drawable.ic_launcher_background)
+                            .placeholder(R.drawable.noimg)
                             .into(circleImageView_logo);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -255,7 +255,7 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
                     }, 1000);
                     Glide.with(ShopActivity.this)
                             .load(returnUri)
-                            .placeholder(R.drawable.ic_launcher_background)
+                            .placeholder(R.drawable.noimg)
                             .into(imageView_cover);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -336,13 +336,13 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
                 if (jsonObject.getString("pic") != "null") {
                     Glide.with(this)
                             .load(jsonObject.getString("pic"))
-                            .placeholder(R.drawable.ic_launcher_background)
+                            .placeholder(R.drawable.noimg)
                             .into(circleImageView_logo);
                 }
                 if (jsonObject.getString("shop_cover") != "null") {
                     Glide.with(this)
                             .load(jsonObject.getString("shop_cover"))
-                            .placeholder(R.drawable.ic_launcher_background)
+                            .placeholder(R.drawable.noimg)
                             .into(imageView_cover);
                 }
             } else {
