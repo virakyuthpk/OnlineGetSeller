@@ -57,7 +57,6 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
             materialButton_description,
             materialButton_logo,
             materialButton_cover;
-    private TextView textView_shopname;
     private ImageView imageView_cover;
     private CircleImageView circleImageView_logo;
     private Toolbar toolbar;
@@ -271,7 +270,6 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
     }
 
     private void registerComponent() {
-        textView_shopname = findViewById(R.id.text_shopname);
         materialButton_shopname = findViewById(R.id.button_shopname);
         materialButton_email = findViewById(R.id.button_shopemail);
         materialButton_phone = findViewById(R.id.button_shopphone);
@@ -307,10 +305,8 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
         try {
             if (jsonObject != null) {
                 if (jsonObject.getString("shop_name") != "null") {
-                    textView_shopname.setText(jsonObject.getString("shop_name"));
                     materialButton_shopname.setText("Shop name : " + jsonObject.getString("shop_name"));
                 } else {
-                    textView_shopname.setText("Shop name");
                     materialButton_shopname.setText("Click to edit shop name");
                 }
                 if (jsonObject.getString("email") != "null") {
@@ -336,17 +332,16 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
                 if (jsonObject.getString("pic") != "null") {
                     Glide.with(this)
                             .load(jsonObject.getString("pic"))
-                            .placeholder(R.drawable.noimg)
+                            .placeholder(R.drawable.user)
                             .into(circleImageView_logo);
                 }
                 if (jsonObject.getString("shop_cover") != "null") {
                     Glide.with(this)
                             .load(jsonObject.getString("shop_cover"))
-                            .placeholder(R.drawable.noimg)
+                            .placeholder(R.drawable.cover)
                             .into(imageView_cover);
                 }
             } else {
-                textView_shopname.setText("Shop Name");
                 materialButton_shopname.setText("Click Edit Shop name");
                 materialButton_email.setText("Click Edit Shop email");
                 materialButton_phone.setText("Click Edit Shop phone");
@@ -362,7 +357,6 @@ public class ShopActivity extends AppCompatActivity implements CallBackFucntionA
     public void afterEdit(String control, String value) {
         if (control == "Shop name") {
             materialButton_shopname.setText("Shop name : " + value);
-            textView_shopname.setText(value);
         } else if (control == "Shop email") {
             materialButton_email.setText("Shop email : " + value);
         } else if (control == "Shop phone") {

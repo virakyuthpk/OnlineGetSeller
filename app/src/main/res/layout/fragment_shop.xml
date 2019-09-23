@@ -31,24 +31,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/cover" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_logo"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignRight="@id/img_shop"
-                    android:layout_alignBottom="@id/img_shop"
-                    android:backgroundTint="@color/colorGrey75Transparent"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:cornerRadius="100dp"
-                    app:icon="@drawable/camera"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    app:iconSize="15dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_cover"
@@ -68,26 +50,32 @@
                     app:iconPadding="0dp"
                     app:iconSize="15dp" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_logo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignBottom="@id/img_shop"
+                    android:layout_alignRight="@id/img_shop"
+                    android:backgroundTint="@color/colorGrey75Transparent"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="100dp"
+                    app:icon="@drawable/camera"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="15dp" />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_shop"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="125dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/user"
                     app:civ_border_color="@color/colorWhite"
                     app:civ_border_width="2dp" />
-
-                <TextView
-                    android:id="@+id/text_shopname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/img_shop"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/text_view_shopname"
-                    android:textColor="@color/colorGrey"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
             </RelativeLayout>
 
             <LinearLayout
@@ -96,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relative_head"
                 android:layout_marginVertical="5dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 android:paddingTop="10dp">

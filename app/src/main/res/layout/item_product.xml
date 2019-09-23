@@ -18,6 +18,7 @@
 
 
         <ImageView
+            android:scaleType="fitCenter"
             android:id="@+id/img_thumbnail_product"
             android:layout_width="@dimen/img_all"
             android:layout_height="@dimen/img_all"

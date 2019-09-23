@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.model.ProductModelSold;
@@ -24,6 +26,7 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private ImageView imageView_thumbnail;
     private TextView textView_title, textView_count, textView_time;
     private View view;
+    private MaterialCardView materialCardView;
 
     public SoldProductAdapter(Context context, List<ProductModelSold.Data> listClear) {
         inflater = LayoutInflater.from(context);
@@ -41,7 +44,7 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ProductModelSold.Data item = dataProductList.get(position);
+        final ProductModelSold.Data item = dataProductList.get(position);
 
         textView_title.setText(item.getProduct_name() + "");
         textView_count.setText(item.getCount() + " sold");
@@ -52,9 +55,17 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
                     .into(imageView_thumbnail);
         }
         textView_time.setText(item.getCreated_at() + "");
+
+        materialCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(view.getContext(), item.getProduct_name() + "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void registerComponent(View view) {
+        materialCardView = view.findViewById(R.id.card_product);
         imageView_thumbnail = view.findViewById(R.id.img_thumbnail_product);
         textView_title = view.findViewById(R.id.text_title_product);
         textView_count = view.findViewById(R.id.text_item_product);
