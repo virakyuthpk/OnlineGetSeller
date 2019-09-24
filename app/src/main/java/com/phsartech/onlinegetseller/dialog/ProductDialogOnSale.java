@@ -51,7 +51,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDialog extends DialogFragment implements
+public class ProductDialogOnSale extends DialogFragment implements
         CallBackFucntionAfterEdit,
         CallBackFucntionOnButtonCategoryClick,
         CallBackFucntionOnButtonCategoryParentClick,
@@ -60,7 +60,7 @@ public class ProductDialog extends DialogFragment implements
         CallBackFunctionOnButtonSupplierClick,
         CallBackFunctionOnButtonUnitClick {
 
-    private static String TAG = "ProductDialog";
+    private static String TAG = "ProductDialogOnSale";
     private final ProductModelOnSale.Data item;
     private Toolbar toolbar;
     private MaterialButton materialButton_productName,
@@ -76,12 +76,12 @@ public class ProductDialog extends DialogFragment implements
     private CallBackFunctionOnButtonSupplierClick callBackFunctionOnButtonSupplierClick = this;
     private CallBackFunctionOnButtonUnitClick callBackFunctionOnButtonUnitClick = this;
 
-    public ProductDialog(ProductModelOnSale.Data item) {
+    public ProductDialogOnSale(ProductModelOnSale.Data item) {
         this.item = item;
     }
 
-    public static ProductDialog display(FragmentManager fragmentManager, ProductModelOnSale.Data item) {
-        ProductDialog exampleDialog = new ProductDialog(item);
+    public static ProductDialogOnSale display(FragmentManager fragmentManager, ProductModelOnSale.Data item) {
+        ProductDialogOnSale exampleDialog = new ProductDialogOnSale(item);
         exampleDialog.show(fragmentManager, TAG);
         return exampleDialog;
     }

@@ -10,20 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.callback.CallBackFunctionOnButtonCategoryParentDialogClick;
 import com.phsartech.onlinegetseller.model.CategoryModel;
 
 import java.util.List;
 
-public class CategoryParentAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class CategoryParentAdapter extends RecyclerView.Adapter<CategoryParentAdapter.MyViewHolder> {
 
     private List<CategoryModel.DataEntity> list;
     private CallBackFunctionOnButtonCategoryParentDialogClick callBackFunctionOnButtonCategoryParentDialogClick;
     private LayoutInflater inflater;
-    private View view;
-    private MaterialButton materialButton;
 
     public CategoryParentAdapter(Activity activity, List<CategoryModel.DataEntity> list, CallBackFunctionOnButtonCategoryParentDialogClick callBackFunctionOnButtonCategoryParentDialogClick) {
         this.callBackFunctionOnButtonCategoryParentDialogClick = callBackFunctionOnButtonCategoryParentDialogClick;
@@ -34,8 +31,7 @@ public class CategoryParentAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = inflater.inflate(R.layout.item_category, parent, false);
-        materialButton = view.findViewById(R.id.button_category_parent);
+        View view = inflater.inflate(R.layout.item_category, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -44,9 +40,9 @@ public class CategoryParentAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final CategoryModel.DataEntity item = list.get(position);
 
-        materialButton.setText(item.getTitleEn());
+        holder.materialButton.setText(item.getTitleEn());
 
-        materialButton.setOnClickListener(new View.OnClickListener() {
+        holder.materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callBackFunctionOnButtonCategoryParentDialogClick.onButtonCategoryParentClick(item);
@@ -57,5 +53,14 @@ public class CategoryParentAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        private MaterialButton materialButton;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            materialButton = itemView.findViewById(R.id.button_category_parent);
+        }
     }
 }

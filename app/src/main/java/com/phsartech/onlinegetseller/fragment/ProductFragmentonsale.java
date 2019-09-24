@@ -20,7 +20,7 @@ import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.OnsaleProductAdapter;
 import com.phsartech.onlinegetseller.callback.CallBackFucntionOnItemOnSaleClick;
-import com.phsartech.onlinegetseller.dialog.ProductDialog;
+import com.phsartech.onlinegetseller.dialog.ProductDialogOnSale;
 import com.phsartech.onlinegetseller.model.ProductModelOnSale;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -119,6 +119,6 @@ public class ProductFragmentonsale extends Fragment implements CallBackFucntionO
 
     @Override
     public void OnClickItem(ProductModelOnSale.Data item) {
-        ProductDialog.display(getFragmentManager(), item);
+        ProductDialogOnSale.display(getFragmentManager(), item);
     }
 }

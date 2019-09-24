@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.phsartech.onlinegetseller.R;
 import com.phsartech.onlinegetseller.adapter.SoldProductAdapter;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionOnItemSoldClick;
 import com.phsartech.onlinegetseller.model.ProductModelSold;
 import com.phsartech.onlinegetseller.retrofit.ApiHelper;
 import com.phsartech.onlinegetseller.util.LocalDataStore;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductFragmentsold extends Fragment {
+public class ProductFragmentsold extends Fragment implements CallBackFucntionOnItemSoldClick {
 
     private static String TAG = "ProductFragmentsold";
     private RecyclerView recycler_sold;
@@ -101,7 +103,7 @@ public class ProductFragmentsold extends Fragment {
     }
 
     private void setView() {
-        soldProductAdapter = new SoldProductAdapter(getContext(), listClear);
+        soldProductAdapter = new SoldProductAdapter(getContext(), listClear, this);
         recycler_sold.setAdapter(soldProductAdapter);
         recycler_sold.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler_sold.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -113,5 +115,11 @@ public class ProductFragmentsold extends Fragment {
         textView_sold = view.findViewById(R.id.txt_status);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_header);
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(21, 112, 191));
+    }
+
+    @Override
+    public void OnClickItem(ProductModelSold.Data item) {
+//        ProductDialogSold.display(getFragmentManager(), item);
+        Toast.makeText(getActivity(), item.getProduct_name(), Toast.LENGTH_SHORT).show();
     }
 }

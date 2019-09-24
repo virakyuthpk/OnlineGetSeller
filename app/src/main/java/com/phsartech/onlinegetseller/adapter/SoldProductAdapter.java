@@ -6,39 +6,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
-import com.phsartech.onlinegetseller.MyViewHolder;
 import com.phsartech.onlinegetseller.R;
+import com.phsartech.onlinegetseller.callback.CallBackFucntionOnItemSoldClick;
 import com.phsartech.onlinegetseller.model.ProductModelSold;
 
 import java.util.List;
 
-public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class SoldProductAdapter extends RecyclerView.Adapter<SoldProductAdapter.MyViewHolder> {
 
     private List<ProductModelSold.Data> dataProductList;
     private LayoutInflater inflater;
-    private ImageView imageView_thumbnail;
-    private TextView textView_title, textView_count, textView_time;
-    private View view;
-    private MaterialCardView materialCardView;
+    private CallBackFucntionOnItemSoldClick callBackFucntionOnItemSoldClick;
 
-    public SoldProductAdapter(Context context, List<ProductModelSold.Data> listClear) {
+    public SoldProductAdapter(Context context, List<ProductModelSold.Data> listClear, CallBackFucntionOnItemSoldClick callBackFucntionOnItemSoldClick) {
         inflater = LayoutInflater.from(context);
         this.dataProductList = listClear;
+        this.callBackFucntionOnItemSoldClick = callBackFucntionOnItemSoldClick;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = inflater.inflate(R.layout.item_product, parent, false);
+        View view = inflater.inflate(R.layout.item_product, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
-        registerComponent(view);
         return holder;
     }
 
@@ -46,34 +42,42 @@ public class SoldProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final ProductModelSold.Data item = dataProductList.get(position);
 
-        textView_title.setText(item.getProduct_name() + "");
-        textView_count.setText(item.getCount() + " sold");
+        holder.textView_title.setText(item.getProduct_name() + "");
+        holder.textView_count.setText(item.getCount() + " sold");
         if (item.getProduct_image() != null) {
-            Glide.with(view.getContext())
+            Glide.with(holder.itemView.getContext())
                     .load(item.getProduct_image())
                     .placeholder(R.drawable.noimg)
-                    .into(imageView_thumbnail);
+                    .into(holder.imageView_thumbnail);
         }
-        textView_time.setText(item.getCreated_at() + "");
+        holder.textView_time.setText(item.getCreated_at() + "");
 
-        materialCardView.setOnClickListener(new View.OnClickListener() {
+        holder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(view.getContext(), item.getProduct_name() + "", Toast.LENGTH_SHORT).show();
+                callBackFucntionOnItemSoldClick.OnClickItem(item);
             }
         });
-    }
-
-    private void registerComponent(View view) {
-        materialCardView = view.findViewById(R.id.card_product);
-        imageView_thumbnail = view.findViewById(R.id.img_thumbnail_product);
-        textView_title = view.findViewById(R.id.text_title_product);
-        textView_count = view.findViewById(R.id.text_item_product);
-        textView_time = view.findViewById(R.id.text_time_product);
     }
 
     @Override
     public int getItemCount() {
         return dataProductList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView imageView_thumbnail;
+        private TextView textView_title, textView_count, textView_time;
+        private MaterialCardView materialCardView;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            materialCardView = itemView.findViewById(R.id.card_product);
+            imageView_thumbnail = itemView.findViewById(R.id.img_thumbnail_product);
+            textView_title = itemView.findViewById(R.id.text_title_product);
+            textView_count = itemView.findViewById(R.id.text_item_product);
+            textView_time = itemView.findViewById(R.id.text_time_product);
+        }
     }
 }
